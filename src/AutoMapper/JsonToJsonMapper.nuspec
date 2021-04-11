@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>JSonToJsonMapper</title>
     <authors>Karan Singh, Akash Khandelwal</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://github.com/microsoft/JsonToJsonMapper/blob/main/LICENSE</licenseUrl>
     <projectUrl>https://github.com/microsoft/JsonToJsonMapper</projectUrl>   
     <description>JsonToJsonMapper works on JSON format to exchange information between systems. It enables transformation of data from one canonical schema to another.</description>
-    <releaseNotes>https://github.com/microsoft/dynamic-odata/blob/main/CHANGELOG.md</releaseNotes>
+    <releaseNotes>https://github.com/microsoft/JsonToJsonMapper/blob/main/CHANGELOG.md</releaseNotes>
     <repository type="git" url="https://github.com/microsoft/JsonToJsonMapper"/>
     <copyright>Copyright (c) Microsoft Corporation.</copyright>
     <tags>JSON Mapper JSonToJSon AutoMapper</tags>
