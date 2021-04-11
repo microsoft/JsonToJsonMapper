@@ -24,7 +24,7 @@ jobs:
       run: ./src/AutoMapper/nuget pack src/AutoMapper/JsonToJsonMapper.csproj -Prop Configuration=Release 
       
     - name: Publish (NuGet.org)
-      run:  nuget push JsonToJsonMapper.1.0.1.nupkg ${{secrets.NUGET_API_KEY}} -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+      run:  nuget push JsonToJsonMapper.1.0.2.nupkg ${{secrets.NUGET_API_KEY}} -Source https://api.nuget.org/v3/index.json -SkipDuplicate
       
       
       
