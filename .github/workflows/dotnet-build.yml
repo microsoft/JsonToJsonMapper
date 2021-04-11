@@ -1,10 +1,10 @@
-name: JSonToJSonMapper.sln Build
+name: Continuous Build
 
 on:
   push:
-    branches: [ develop_FixBuild ]
+    branches: [ main ]
   pull_request:
-    branches: [ develop_FixBuild ]
+    branches: [ main ]
 
 jobs:
   build:
