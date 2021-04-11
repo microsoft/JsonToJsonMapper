@@ -63,7 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoMapper\JsonToJsonMapper.csproj">
+    <ProjectReference Include="..\..\src\AutoMapper\JsonToJsonMapper.csproj">
       <Project>{27e353d4-b88d-49af-a072-7c19a47a2465}</Project>
       <Name>JsonToJsonMapper</Name>
     </ProjectReference>
