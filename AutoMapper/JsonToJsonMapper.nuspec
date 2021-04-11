@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <title>JSonToJsonMapper</title>
     <authors>Karan Singh, Akash Khandelwal</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>  
@@ -11,8 +11,5 @@
     <releaseNotes>https://github.com/microsoft/dynamic-odata/blob/main/CHANGELOG.md</releaseNotes>
     <copyright>Copyright (c) Microsoft Corporation.</copyright>
     <tags>JSON Mapper JSonToJSon AutoMapper</tags>
-	<dependencies>
-      <group targetFramework="net461" />
-    </dependencies> 
   </metadata>
 </package>
