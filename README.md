@@ -1,4 +1,4 @@
-[![Build](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-build.yml)
+[![Continuous Build](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-build-continuous.yml/badge.svg)](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-build-continuous.yml)
 
 
 # JsonToJsonMapper 
