@@ -1,0 +1,30 @@
+name: Nuget Publish (NuGet.org)
+on:
+  [workflow_dispatch]
+jobs:
+  publish:
+    name: nuget publish to github packages
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1
+      
+    - name: Restore NuGet Packages
+      run: nuget restore Json2JsonMapper.sln
+    
+    - name: Build Json2JsonMapper.sln 
+      run: msbuild Json2JsonMapper.sln /p:Configuration=Release   
+        
+    - name: Pack
+      run: ./AutoMapper/nuget pack AutoMapper/JsonToJsonMapper.csproj -Prop Configuration=Release 
+      
+    - name: Publish (NuGet.org)
+      run:  nuget push JsonToJsonMapper.1.0.0.1.nupkg ${{secrets.NUGET_API_KEY}} -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+      
+      
+      
