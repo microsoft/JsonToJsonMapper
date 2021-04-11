@@ -28,10 +28,25 @@ jobs:
       with:
         languages: csharp
 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1
+       
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+     
+    - name: Restore NuGet Packages
+      run: nuget restore Json2JsonMapper.sln
+      
+    - name: Build
+      run: msbuild Json2JsonMapper.sln /p:Configuration=Release   
+
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v1
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
