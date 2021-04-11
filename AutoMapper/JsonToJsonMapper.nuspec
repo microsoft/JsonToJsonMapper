@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>1.0.0.1</version>
+    <title>JSonToJsonMapper</title>
+    <authors>Karan Singh, Akash Khandelwal</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>  
+    <projectUrl>https://github.com/microsoft/JsonToJsonMapper</projectUrl>   
+    <description>JSonToJSonMapper works on JSON format to exchange information between systems. MIP. It enables transformation of data from one canonical schema to another and allows integration of different SaaS applications through orchestration.</description>
+    <releaseNotes>https://github.com/microsoft/dynamic-odata/blob/main/CHANGELOG.md</releaseNotes>
+    <copyright>Copyright (c) Microsoft Corporation.</copyright>
+    <tags>JSON Mapper JSonToJSon AutoMapper</tags>
+	<dependencies>
+      <group targetFramework="net461" />
+    </dependencies> 
+  </metadata>
+</package>
