@@ -3,7 +3,7 @@
 
 # JsonToJsonMapper 
 
-AutoMapper works on JSON format to exchange information between systems. MIP. It enables transformation of data from one canonical schema to another and allows integration of different SaaS applications through orchestration. 
+AutoMapper works on JSON format to exchange information between systems. It enables transformation of data from one canonical schema to another and allows integration of different SaaS applications through orchestration. 
 Following are some of the capabilities that Automapper currently supports:
 1. Transformation from a flat type to flat/complex type.
 2. Transformation from a complex type to flat/complex type.
