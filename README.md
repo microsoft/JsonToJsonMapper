@@ -12,7 +12,7 @@ Following are some of the capabilities that Automapper currently supports:
 5. Supports transformation of values from one datatype to another.
 6. Data type validation
 
-![GitHub Logo](JsonToJsonMapper.png)
+![GitHub Logo](Images/JsonToJsonMapperflow.png)
 
 ## Following are the handlers currently supported by the tool
 
@@ -42,6 +42,8 @@ Following are some of the capabilities that Automapper currently supports:
 3. Split 
 4. ToUpper
 5. ToLower
+
+![GitHub Logo](Images/JsonToJsonMapper.png)
 
 ### Example
 Source Json
