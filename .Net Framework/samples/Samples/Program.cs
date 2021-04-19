@@ -15,7 +15,6 @@ namespace Samples
 	{
 		static void Main(string[] args)
 		{
-
 			Complex2ComplexTransformationSample();
 			Complex2FlatTransformationSample();
 			RoslynSample();
@@ -23,8 +22,6 @@ namespace Samples
 			TransformToLowerCase();
 			OneToOneMappingTest();
 			RangeMappingTest();
-
-
 		}
 
 		public static void Complex2ComplexTransformationSample()
