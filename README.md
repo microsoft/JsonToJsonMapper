@@ -12,7 +12,7 @@ Following are some of the capabilities that Automapper currently supports:
 5. Supports transformation of values from one datatype to another.
 6. Data type validation
 
-![GitHub Logo](Images/JsonToJsonMapperflow.png)
+![GitHub Logo](Images/JsonToJsonMapperFlow.png)
 
 ## Following are the handlers currently supported by the tool
 
