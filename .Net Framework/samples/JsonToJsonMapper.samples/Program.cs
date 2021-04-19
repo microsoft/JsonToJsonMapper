@@ -15,12 +15,12 @@ namespace Samples
 	{
 		static void Main(string[] args)
 		{
-			Complex2ComplexTransformationSample();
-			Complex2FlatTransformationSample();
-			RoslynSample();
-			TransformToUpperCaseParent();
-			TransformToLowerCase();
-			OneToOneMappingTest();
+			//Complex2ComplexTransformationSample();
+			//Complex2FlatTransformationSample();
+			//RoslynSample();
+			//TransformToUpperCaseParent();
+			//TransformToLowerCase();
+			//OneToOneMappingTest();
 			RangeMappingTest();
 		}
 

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples.csproj", "{5F686175-FEF0-403E-A0D0-550797F1250B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonToJsonMapper.samples", "JsonToJsonMapper.samples.csproj", "{5F686175-FEF0-403E-A0D0-550797F1250B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
