@@ -1,5 +1,6 @@
 [![Build](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-build-continuous.yml/badge.svg)](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-build-continuous.yml)
 [![Build-Samples](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-samples-build-continuous.yml/badge.svg)](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-samples-build-continuous.yml)
+[![Coverage Status](https://coveralls.io/repos/github/microsoft/JsonToJsonMapper/badge.svg?branch=main)](https://coveralls.io/github/microsoft/JsonToJsonMapper?branch=main)
 
 # JsonToJsonMapper 
 
