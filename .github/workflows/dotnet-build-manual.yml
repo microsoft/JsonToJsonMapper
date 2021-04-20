@@ -55,7 +55,7 @@ jobs:
       run: minicover uninstrument
     
     - name: Report
-      run: minicover report --threshold 70
+      run: minicover report --threshold 80
       #if: ${{ github.event_name == 'pull_request' }}
     
     - name: Report coveralls
