@@ -1,10 +1,14 @@
 
-# Prerequisite
+# How to run Samples
 
-We are still working on publishing the Microsoft.JsonToJsonMapper package to NuGet.org, for now this sample solution needs to be build with local reference. here are the steps for the same:
+Open Program.cs file and you will find below Sample methods. Uncomment the method in main to test the features of JsonToJsonMapper
 
-1. Build JsonToJsonMapper Solution in local.
-2. Add local reference to JsonToJsonMapper.dll from bin folder.
-3. Build JsonToJsonMapper.samples.sln
+- Complex2ComplexTransformationSample();
+- Complex2FlatTransformationSample();
+- RoslynSample();
+- TransformToUpperCaseParent();
+- TransformToLowerCase();
+- OneToOneMappingTest();
+- RangeMappingTest();
 
 
