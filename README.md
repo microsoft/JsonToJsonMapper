@@ -1,6 +1,5 @@
 [![Build](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-build-continuous.yml/badge.svg)](https://github.com/microsoft/JsonToJsonMapper/actions/workflows/dotnet-build-continuous.yml)
 
-
 # JsonToJsonMapper 
 
 AutoMapper works on JSON format to exchange information between systems. It enables transformation of data from one canonical schema to another and allows integration of different SaaS applications through orchestration. 
