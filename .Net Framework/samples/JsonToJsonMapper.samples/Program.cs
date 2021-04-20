@@ -15,7 +15,7 @@ namespace Samples
 	{
 		static void Main(string[] args)
 		{
-			//Complex2ComplexTransformationSample();
+			Complex2ComplexTransformationSample();
 			//Complex2FlatTransformationSample();
 			//RoslynSample();
 			//TransformToUpperCaseParent();
