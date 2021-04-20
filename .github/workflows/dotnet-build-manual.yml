@@ -37,27 +37,3 @@ jobs:
     - name: Build
       run: msbuild ".Net Framework/Json2JsonMapper.sln" /p:Configuration=Release     
     
-    - name: Install minicover
-      run: dotnet tool install --global minicover --version 3.0.6
-  
-    - name: Setup VSTest.console.exe
-      # You may pin to the exact commit or the version.
-      # uses: darenm/Setup-VSTest@fbb574e849d6225ce9702f86e64eb6cdc4b4e561
-      uses: darenm/Setup-VSTest@v1
-    
-    - name: Instrument
-      run: minicover instrument --sources ".Net Framework\**\**\*.cs"
-      
-    - name: Run VSTest
-      run: vstest.console.exe ".Net Framework\test\JsonToJsonMapper.Tests\bin\Release\JsonToJsonMapper.Tests.dll"
-
-    - name: Uninstrument
-      run: minicover uninstrument
-    
-    - name: Report
-      run: minicover report --threshold 70
-      #if: ${{ github.event_name == 'pull_request' }}
-    
-    - name: Report coveralls
-      run: minicover coverallsreport --repo-token ${{ secrets.COVERALLS_TOKEN }} --branch ${{ env.BRANCH_NAME }}
-      #if: ${{ github.event_name == 'push' }}
