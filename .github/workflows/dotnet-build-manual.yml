@@ -1,4 +1,4 @@
-name: Manual Build
+name: Manual Build with Code Coverage
 
 on:
   [workflow_dispatch]
