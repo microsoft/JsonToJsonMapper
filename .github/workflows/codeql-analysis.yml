@@ -38,10 +38,10 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.5
      
     - name: Restore NuGet Packages
-      run: nuget restore Json2JsonMapper.sln
+      run: nuget restore ".Net Framework/Json2JsonMapper.sln"
       
     - name: Build
-      run: msbuild Json2JsonMapper.sln /p:Configuration=Release   
+      run: msbuild ".Net Framework/Json2JsonMapper.sln" /p:Configuration=Release   
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
