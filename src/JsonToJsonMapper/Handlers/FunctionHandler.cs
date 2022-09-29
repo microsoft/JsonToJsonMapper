@@ -18,7 +18,8 @@ public class FunctionHandler : ITransformationHandler
       {
         foreach (var item in parameters)
         {
-          if (!(item is JToken))
+          if (item is not JToken)
+          {
             if (item.StartsWith("$"))
             {
               if (!item.ToUpperInvariant().Contains("[{PARENT}]"))
@@ -35,9 +36,13 @@ public class FunctionHandler : ITransformationHandler
                     else if (string.IsNullOrWhiteSpace(i.ToString()))
                     {
                       if (Convert.ToBoolean(ignoreEmptyValue))
+                      {
                         inputParam.Add(nullString);
+                      }
                       else
+                      {
                         inputParam.Add(i.ToString());
+                      }
                     }
                     else
                     {
@@ -63,30 +68,45 @@ public class FunctionHandler : ITransformationHandler
                 if (valueToken != null)
                 {
                   if (valueToken.Type == JTokenType.Array || valueToken.Type == JTokenType.Object)
+                  {
                     inputParam.Add(valueToken.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", ""));
+                  }
                   else if (valueToken.Value<string>() != null)
                   {
                     if (string.IsNullOrWhiteSpace(valueToken.ToString()))
                     {
                       if (Convert.ToBoolean(ignoreEmptyValue))
+                      {
                         inputParam.Add(nullString);
+                      }
                       else
+                      {
                         inputParam.Add(valueToken.ToString());
+                      }
                     }
                     else
                     {
-                      inputParam.Add(valueToken.ToString());
+                      {
+                        inputParam.Add(valueToken.ToString());
+                      }
                     }
                   }
                   else
+                  {
                     inputParam.Add(nullString);
+                  }
                 }
                 else
+                {
                   inputParam.Add(nullString);
+                }
               }
             }
             else
+            {
               inputParam.Add(item);
+            }
+          }
         }
       }
     }
@@ -94,7 +114,10 @@ public class FunctionHandler : ITransformationHandler
     switch (function.ToUpperInvariant())
     {
       case "CONCAT":
+      {
         return ConCat(inputParam, transform["Delimeter"].Value<string>());
+      }
+
       case "REPLACEVALUE":
       {
         var compareToValue = transform["CompareToValue"].Value<string>();
@@ -106,6 +129,7 @@ public class FunctionHandler : ITransformationHandler
         defaultValue = GetTokenValue(input, nullString, defaultValue);
         return ReplaceValue(inputParam, compareToValue, returnValue, defaultValue);
       }
+
       case "REPLACEVALUEWITHREGEXCOMPARISON":
       {
         var compareToValue = transform["CompareToValue"].Value<string>();
@@ -118,6 +142,7 @@ public class FunctionHandler : ITransformationHandler
 
         return ReplaceValueWithRegexComparison(inputParam, compareToValue, returnValue, defaultValue);
       }
+
       case "SPLIT":
       {
         var delimeter = transform["Delimeter"].Value<char>();
@@ -126,22 +151,27 @@ public class FunctionHandler : ITransformationHandler
         var position = positionToken != null ? positionToken.ToString() : string.Empty;
         return Split(inputParam, delimeter, index, position);
       }
+
       case "TOUPPERCASE":
       {
         return inputParam[0] != null ? inputParam[0].ToUpperInvariant() : string.Empty;
       }
+
       case "TOLOWERCASE":
       {
         return inputParam[0] != null ? inputParam[0].ToLowerInvariant() : string.Empty;
       }
+
       case "RANGEMAPPING":
       {
         return mapRange((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
       }
+
       case "ONETOONEMAPPING":
       {
         return mapOneToOne((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
       }
+
       case "URIESCAPEDATASTRING":
       {
         UriEscapeDataString(input, parameters);
@@ -152,29 +182,29 @@ public class FunctionHandler : ITransformationHandler
     return null;
   }
 
-  private string GetTokenValue(JObject input, string nullString, string Value)
+  private string GetTokenValue(JObject input, string nullString, string value)
   {
-    if (Value != null && Value.StartsWith("$."))
+    if (value != null && value.StartsWith("$."))
     {
-      var returnValueToken = input.SelectToken(Value);
+      var returnValueToken = input.SelectToken(value);
       if (returnValueToken == null)
       {
-        Value = nullString;
+        value = nullString;
       }
       else
       {
         if (returnValueToken.Type == JTokenType.Null)
         {
-          Value = nullString;
+          value = nullString;
         }
         else
         {
-          Value = returnValueToken.ToString();
+          value = returnValueToken.ToString();
         }
       }
     }
 
-    return Value;
+    return value;
   }
 
   private string GetCompareValue(JObject input, string nullString, string compareToValue)
@@ -233,9 +263,14 @@ public class FunctionHandler : ITransformationHandler
   private string ReplaceValue(List<string> args, string compareToValue, string returnValue, string defaultValue)
   {
     if (args[0] == null && compareToValue == null)
+    {
       return returnValue;
+    }
+
     if (args[0] != null && args[0].Equals(compareToValue, StringComparison.OrdinalIgnoreCase))
+    {
       return returnValue;
+    }
 
     return defaultValue;
   }
@@ -243,9 +278,15 @@ public class FunctionHandler : ITransformationHandler
   private string ReplaceValueWithRegexComparison(List<string> args, string compareToValue, string returnValue, string defaultValue)
   {
     if (args[0] == null && compareToValue == null)
+    {
       return returnValue;
+    }
+
     if (args[0] != null && compareToValue != null && Regex.IsMatch(args[0], compareToValue, RegexOptions.IgnoreCase))
+    {
       return returnValue;
+    }
+
     return defaultValue;
   }
 
@@ -256,21 +297,20 @@ public class FunctionHandler : ITransformationHandler
       var delimiters = new char[] { delimeter };
       return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries)[index];
     }
-    else
+
+    if (position.Equals("FIRST", StringComparison.OrdinalIgnoreCase))
     {
-      if (position.Equals("FIRST", StringComparison.OrdinalIgnoreCase))
-      {
-        var delimiters = new char[] { delimeter };
-        return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
-      }
-      else if (position.Equals("LAST", StringComparison.OrdinalIgnoreCase))
-      {
-        var delimiters = new char[] { delimeter };
-        return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
-      }
-      else
-        return string.Empty;
+      var delimiters = new char[] { delimeter };
+      return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
     }
+
+    if (position.Equals("LAST", StringComparison.OrdinalIgnoreCase))
+    {
+      var delimiters = new char[] { delimeter };
+      return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+    }
+
+    return string.Empty;
   }
 
   private string mapRange(JArray truthTable, string value)

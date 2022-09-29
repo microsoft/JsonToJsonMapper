@@ -21,7 +21,9 @@ public class AutoMapper : IDisposable
     Mapping = config.MappingRuleConfig;
 
     if (Mapping == null || !Mapping.TruthTable.Any())
+    {
       throw new Exception("Invalid mapping json");
+    }
 
     var scripts = new Dictionary<string, Script>();
 
@@ -42,7 +44,6 @@ public class AutoMapper : IDisposable
     }
 
     // Load all the handlers
-
     handler.AddHandlers(new TransposeHandler());
     handler.AddHandlers(new TypeConverterHandler());
     handler.AddHandlers(new ValueMappingHandler());
@@ -58,7 +59,9 @@ public class AutoMapper : IDisposable
   public object Transform(string inputJson)
   {
     if (Mapping.DestinationType == null)
+    {
       throw new Exception("Invalid mapping json");
+    }
 
     return Execute((JObject)JsonConvert.DeserializeObject(inputJson, JsonConvertSettings), Mapping);
   }
@@ -66,7 +69,9 @@ public class AutoMapper : IDisposable
   public object Transform(JObject jObj)
   {
     if (Mapping.DestinationType == null)
+    {
       throw new Exception("Invalid mapping json");
+    }
 
     return Execute(jObj, Mapping);
   }
@@ -96,13 +101,18 @@ public class AutoMapper : IDisposable
           if (value != null)
           {
             if (rule.DataType == null)
+            {
               rule.DataType = valueType;
+            }
+
             var finalValue = handler.GetHandler<TypeConverterHandler>()
               .Run(JObject.FromObject(rule), JObject.FromObject(new { value = value }));
             propertyInfo.SetValue(entity, finalValue, null);
           }
           else
+          {
             propertyInfo.SetValue(entity, value, null);
+          }
         }
         else
         {
@@ -158,7 +168,9 @@ public class AutoMapper : IDisposable
         Dictionary<string, object> transposeResponse = handler.GetHandler<TransposeHandler>()
           .Run(JObject.FromObject(rule), jsonObject);
         if (transposeResponse != null)
+        {
           jsonString.Json.AddRange(transposeResponse);
+        }
       }
       else if (!string.IsNullOrEmpty(rule.DestinationColumn))
       {
@@ -170,17 +182,24 @@ public class AutoMapper : IDisposable
 
           var value = GetValue(jsonObject, rule.SourceColumn, rule.TransformValue, out valueType);
           if (rule.DataType == null)
+          {
             rule.DataType = valueType;
+          }
+
           var finalValue = handler.GetHandler<TypeConverterHandler>()
             .Run(JObject.FromObject(rule), JObject.FromObject(new { value = value }));
           if (finalValue != null || finalValue.Type != JTokenType.Null || (finalValue == null && !mapping.IgnoreNullValue) || (finalValue.Type == JTokenType.Null && !mapping.IgnoreNullValue))
+          {
             jsonString.Json.Add(destinationValue, finalValue);
+          }
         }
         else if (rule.ComplexType.DataType != null && rule.ComplexType.DataType.ToUpperInvariant().Equals("JARRAY"))
         {
           var result = TransformJArray(jsonObject, rule.ComplexType, mapping.IgnoreNullValue);
           if (result != null)
+          {
             jsonString.Json.Add(rule.DestinationColumn, result);
+          }
         }
         else
         {
@@ -189,11 +208,14 @@ public class AutoMapper : IDisposable
           if (result != null)
           {
             if (!string.IsNullOrWhiteSpace(rule.DataType))
+            {
               jsonString.Json.Add(rule.DestinationColumn, handler.GetHandler<TypeConverterHandler>()
                 .Run(JObject.FromObject(rule), JObject.FromObject(new { value = result })));
-
+            }
             else
+            {
               jsonString.Json.Add(rule.DestinationColumn, result);
+            }
           }
         }
       }
@@ -234,7 +256,10 @@ public class AutoMapper : IDisposable
     }
 
     if (!hasToken && mapping.IgnoreEmptyArray)
+    {
       return null;
+    }
+
     return array;
   }
 
@@ -247,11 +272,13 @@ public class AutoMapper : IDisposable
     {
       return handler.GetHandler<RoslynScriptHandler>().Run(JObject.FromObject(transform), jsonObject);
     }
-    else if (transform != null && transform.Type != null && transform.Type.Equals("FUNCTION", StringComparison.OrdinalIgnoreCase))
+
+    if (transform != null && transform.Type != null && transform.Type.Equals("FUNCTION", StringComparison.OrdinalIgnoreCase))
     {
       return handler.GetHandler<FunctionHandler>().Run(JObject.FromObject(transform), jsonObject);
     }
-    else if (!string.IsNullOrEmpty(key) && key.StartsWith("$"))
+
+    if (!string.IsNullOrEmpty(key) && key.StartsWith("$"))
     {
       if (!key.ToUpperInvariant().Contains("[{PARENT}]"))
       {
@@ -261,7 +288,9 @@ public class AutoMapper : IDisposable
           valueType = token.Type.ToString();
           var tokenValue = token.ToString();
           if (token.GetType().Name.Equals("JVALUE", StringComparison.OrdinalIgnoreCase) && token.Type == JTokenType.Null)
+          {
             value = null;
+          }
           else if (valueType.Equals("Date", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(tokenValue))
           {
             var val = (token.Parent.ToString().Split(new char[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries).Length > 1) ? token.Parent.ToString().Split(new char[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries)[1] : tokenValue;
@@ -277,7 +306,9 @@ public class AutoMapper : IDisposable
           }
         }
         else
+        {
           value = null;
+        }
       }
       else
       {
@@ -293,37 +324,52 @@ public class AutoMapper : IDisposable
         {
           valueType = valueToken.Type.ToString();
           if (valueToken.Type == JTokenType.Array || valueToken.Type == JTokenType.Object)
+          {
             value = valueToken.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", "");
+          }
           else if (valueToken.Value<string>() != null)
           {
             value = valueToken.ToString();
           }
           else
+          {
             value = null;
+          }
         }
         else
+        {
           value = null;
+        }
       }
     }
     else
     {
       var jsonobjectvalue = jsonObject.GetValue(key, StringComparison.OrdinalIgnoreCase);
       if (jsonobjectvalue == null || jsonobjectvalue.Type == JTokenType.Null)
+      {
         value = null;
+      }
       else
       {
         valueType = jsonobjectvalue.Type.ToString();
         value = jsonobjectvalue.ToString();
         if (value.StartsWith("\""))
+        {
           value = value.Substring(1);
+        }
+
         if (value.EndsWith("\""))
+        {
           value = value.Substring(0, value.Length - 1);
+        }
       }
     }
 
     if (transform != null)
+    {
       value = handler.GetHandler<ValueMappingHandler>()
         .Run(JObject.FromObject(transform), JObject.FromObject(new { value = value }));
+    }
 
     return value;
   }

@@ -17,15 +17,23 @@ public class ValueMappingHandler : ITransformationHandler
     var value = input["value"].Value<string>();
 
     if (transform != null && valueMapping != null && value != null)
+    {
       value = (from item in valueMapping where item.ExistingValue.Equals(value, StringComparison.OrdinalIgnoreCase) select item.NewValue).FirstOrDefault();
+    }
+
     if (transform != null && string.IsNullOrWhiteSpace(value) && defaultValue != null)
     {
       if (defaultValue.Equals("UTCNOW", StringComparison.OrdinalIgnoreCase))
+      {
         return DateTime.UtcNow.ToString();
-      else if (defaultValue.Equals("NEWGUID", StringComparison.OrdinalIgnoreCase))
+      }
+
+      if (defaultValue.Equals("NEWGUID", StringComparison.OrdinalIgnoreCase))
+      {
         return Guid.NewGuid().ToString();
-      else
-        return defaultValue;
+      }
+
+      return defaultValue;
     }
 
     return value;

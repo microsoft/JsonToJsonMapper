@@ -36,15 +36,21 @@ internal class RoslynScriptHandler : ITransformationHandler
           {
             inputParam.Append(i.ToString());
             if (tokens.Count() > 1)
+            {
               inputParam.Append("[tokenDelimiter]");
+            }
           }
         }
 
         if (parameters.Count > 1)
+        {
           inputParam.Append(string.Empty + "[delimiter]");
+        }
       }
       else
+      {
         inputParam.Append(item + "[delimiter]");
+      }
     }
 
     var result = Scripts[scriptName].RunAsync(new ScriptHost { Args = inputParam.ToString() });
