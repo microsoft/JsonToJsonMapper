@@ -32,7 +32,9 @@ internal class TypeConverterHandler : ITransformationHandler
     switch (dataType.ToUpperInvariant())
     {
       case "LONG":
+      {
         return Convert.ToInt64(value);
+      }
 
       case "JOBJECT":
       {
@@ -72,14 +74,20 @@ internal class TypeConverterHandler : ITransformationHandler
       }
 
       case "SHORT":
+      {
         return Convert.ToInt16(value);
+      }
 
       case "INT":
       case "INTEGER":
+      {
         return Convert.ToInt32(value);
+      }
 
       case "GUID":
+      {
         return new Guid(value.ToString());
+      }
 
       case "DATETIME":
       {
@@ -109,10 +117,14 @@ internal class TypeConverterHandler : ITransformationHandler
 
       case "BOOL":
       case "BOOLEAN":
+      {
         return Convert.ToBoolean(value);
+      }
 
       case "DECIMAL":
+      {
         return Convert.ToDecimal(value);
+      }
 
       case "DECIMAL?":
       {
