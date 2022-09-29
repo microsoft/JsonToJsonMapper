@@ -63,7 +63,7 @@ namespace MipUnitTest
     {
       // Arrange
       string mappingJson =
-        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
+        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Core.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
 
       string inputJson =
         "{\"name\": null,\"allowEmail\": false,\"SalesId\": null,\"Leadscore\":100}";
@@ -75,9 +75,9 @@ namespace MipUnitTest
         var lead = (LeadRecord)mapper.Transform(inputJson);
         Assert.IsNull(lead.Name);
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        Assert.Fail();
+        Assert.Fail(ex.Message);
       }
     }
 
@@ -86,7 +86,7 @@ namespace MipUnitTest
     {
       // Arrange
       string mappingJson =
-        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
+        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Core.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
 
       string inputJson =
         "{\"name\": \"\",\"allowEmail\": false,\"SalesId\": null,\"Leadscore\":\"101\"}";
@@ -99,9 +99,9 @@ namespace MipUnitTest
         Assert.IsTrue(lead.AllowEmail == false);
         Assert.IsTrue(lead.LeadScore == 101);
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        Assert.Fail();
+        Assert.Fail(ex.Message);
       }
     }
 
@@ -136,7 +136,7 @@ namespace MipUnitTest
     {
       // Arrange
       string mappingJson =
-        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":null,\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
+        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Core.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":null,\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
 
       string inputJson =
         "{\"name\": null,\"allowEmail\": false,\"SalesId\": null,\"Leadscore\":\"100\"}";
@@ -148,9 +148,9 @@ namespace MipUnitTest
         var lead = (LeadRecord)mapper.Transform(inputJson);
         Assert.IsTrue(lead.Name == "NA");
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        Assert.Fail();
+        Assert.Fail(ex.Message);
       }
     }
 
@@ -159,7 +159,7 @@ namespace MipUnitTest
     {
       // Arrange
       string mappingJson =
-        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":[{\"ExistingValue\": \"1\",\"NewValue\": true},{\"ExistingValue\": \"2\",\"NewValue\": false}],\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
+        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Core.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":[{\"ExistingValue\": \"1\",\"NewValue\": true},{\"ExistingValue\": \"2\",\"NewValue\": false}],\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
 
       string inputJson =
         "{\"Name\": \"1\",\"allowEmail\": false,\"SalesId\": null,\"Leadscore\":\"100\"}";
@@ -171,9 +171,9 @@ namespace MipUnitTest
         var lead = (LeadRecord)mapper.Transform(inputJson);
         Assert.IsTrue(lead.Name == "true");
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        Assert.Fail();
+        Assert.Fail(ex.Message);
       }
     }
 
@@ -182,7 +182,7 @@ namespace MipUnitTest
     {
       // Arrange
       string mappingJson =
-        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":[{\"ExistingValue\": \"1\",\"NewValue\": true},{\"ExistingValue\": \"2\",\"NewValue\": false}],\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
+        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Core.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":[{\"ExistingValue\": \"1\",\"NewValue\": true},{\"ExistingValue\": \"2\",\"NewValue\": false}],\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
 
       string inputJson =
         "{\"Name\": \"22\",\"allowEmail\": false,\"SalesId\": null,\"Leadscore\":\"100\"}";
@@ -194,9 +194,9 @@ namespace MipUnitTest
         var lead = (LeadRecord)mapper.Transform(inputJson);
         Assert.IsTrue(lead.Name == "NA");
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        Assert.Fail();
+        Assert.Fail(ex.Message);
       }
     }
 
@@ -205,7 +205,7 @@ namespace MipUnitTest
     {
       // Arrange
       string mappingJson =
-        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":[{\"ExistingValue\": \"2\",\"NewValue\": false},{\"ExistingValue\": \"\",\"NewValue\": true}],\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
+        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Core.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": \"string\",\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":[{\"ExistingValue\": \"2\",\"NewValue\": false},{\"ExistingValue\": \"\",\"NewValue\": true}],\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": \"int\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": \"bool\",\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\": \"Guid\",\"ComplexType\": null,\"TransformValue\": null}]}}";
 
       string inputJson =
         "{\"Name\": \"\",\"allowEmail\": false,\"SalesId\": null,\"Leadscore\":\"100\"}";
@@ -217,9 +217,9 @@ namespace MipUnitTest
         var lead = (LeadRecord)mapper.Transform(inputJson);
         Assert.IsTrue(lead.Name == "true");
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        Assert.Fail();
+        Assert.Fail(ex.Message);
       }
     }
 
@@ -831,7 +831,7 @@ namespace MipUnitTest
     {
       // Arrange
       string mappingJson =
-        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": null,\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":[{\"ExistingValue\": \"1\",\"NewValue\": true},{\"ExistingValue\": \"2\",\"NewValue\": false}],\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": null,\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"$.AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": null,\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\":  null,\"ComplexType\": null,\"TransformValue\": null}]}}";
+        "{\"MappingRuleConfig\":{\"DestinationType\": \"MipUnitTest.LeadRecord, JsonToJsonMapper.Core.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\",\"TruthTable\": [{\"SourceColumn\": \"$.Name\",\"DestinationColumn\": \"Name\",\"DataType\": null,\"ComplexType\": null,\"TransformValue\": {\"ValueMapping\":[{\"ExistingValue\": \"1\",\"NewValue\": true},{\"ExistingValue\": \"2\",\"NewValue\": false}],\"DefaultValue\":\"NA\"}},{\"SourceColumn\": \"LeadScore\",\"DestinationColumn\": \"LeadScore\",\"DataType\": null,\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"$.AllowEmail\",\"DestinationColumn\": \"AllowEmail\",\"DataType\": null,\"ComplexType\": null,\"TransformValue\": null},{\"SourceColumn\": \"CrmId\",\"DestinationColumn\": \"CrmId\",\"DataType\":  null,\"ComplexType\": null,\"TransformValue\": null}]}}";
 
       string inputJson =
         "{\"Name\": \"22\",\"AllowEmail\": false,\"CrmId\": null,\"LeadScore\":100}";
@@ -843,9 +843,9 @@ namespace MipUnitTest
         LeadRecord lead = (LeadRecord)mapper.Transform(inputJson);
         Assert.IsTrue(lead.LeadScore == 100);
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        Assert.Fail();
+        Assert.Fail(ex.Message);
       }
     }
 
