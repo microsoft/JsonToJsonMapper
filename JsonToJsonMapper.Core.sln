@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9181289D-E1A0-4294-86C3-000A3DB40611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonToJsonMapper.Core", "src\AutoMapper\JsonToJsonMapper.Core.csproj", "{4620C9BA-6A5E-4B38-A3E3-6394AA94D06C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonToJsonMapper.Core", "src\JsonToJsonMapper\JsonToJsonMapper.Core.csproj", "{4620C9BA-6A5E-4B38-A3E3-6394AA94D06C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5925B6A8-817B-4767-AFF8-12A593C7A3AB}"
 EndProject

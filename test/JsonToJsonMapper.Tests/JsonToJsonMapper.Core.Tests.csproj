@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AutoMapper\JsonToJsonMapper.Core.csproj" />
+    <ProjectReference Include="..\..\src\JsonToJsonMapper\JsonToJsonMapper.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
