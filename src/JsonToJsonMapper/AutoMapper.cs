@@ -36,7 +36,7 @@ namespace JsonToJsonMapper
           if (script.Reference != null)
           {
             // With assembly import
-            ScriptOptions options = ScriptOptions.Default.AddReferences(script.Reference.Assembly).WithImports(script.Reference.NameSpace);
+            var options = ScriptOptions.Default.AddReferences(script.Reference.Assembly).WithImports(script.Reference.NameSpace);
             scripts.Add(script.Name, CSharpScript.Create<string>(script.Code, options, globalsType: typeof(ScriptHost)));
           }
           else
@@ -82,7 +82,7 @@ namespace JsonToJsonMapper
     /// <returns></returns>
     private object Execute(JObject jsonObject, MappingRule mapping)
     {
-      Type type = Type.GetType(mapping.DestinationType, true);
+      var type = Type.GetType(mapping.DestinationType, true);
       var entity = Activator.CreateInstance(type);
 
       // Set the value for each item in destinationType
@@ -169,7 +169,7 @@ namespace JsonToJsonMapper
           {
             // Handle Jvalue
             string valueType;
-            string destinationValue = rule.DestinationColumn.StartsWith("$") ? jsonObject.SelectToken(rule.DestinationColumn).ToString() : rule.DestinationColumn;
+            var destinationValue = rule.DestinationColumn.StartsWith("$") ? jsonObject.SelectToken(rule.DestinationColumn).ToString() : rule.DestinationColumn;
 
             var value = GetValue(jsonObject, rule.SourceColumn, rule.TransformValue, out valueType);
             if (rule.DataType == null)
@@ -208,14 +208,14 @@ namespace JsonToJsonMapper
     private dynamic TransformJArray(JObject jsonObject, MappingRule mapping, bool ignoreNullVaue)
     {
       var tokens = jsonObject.SelectTokens(mapping.Node);
-      JArray array = new JArray();
-      bool hasToken = false;
+      var array = new JArray();
+      var hasToken = false;
       foreach (var item in tokens)
       {
         hasToken = true;
         if (string.Equals(item.GetType().Name, "jarray", StringComparison.OrdinalIgnoreCase))
         {
-          JArray itemJArray = (JArray)item;
+          var itemJArray = (JArray)item;
           if (itemJArray.Any())
           {
             foreach (var a in itemJArray)
@@ -258,16 +258,16 @@ namespace JsonToJsonMapper
       {
         if (!key.ToUpperInvariant().Contains("[{PARENT}]"))
         {
-          JToken token = jsonObject.SelectToken(key);
+          var token = jsonObject.SelectToken(key);
           if (token != null && token.Value<dynamic>() != null)
           {
             valueType = token.Type.ToString();
-            string tokenValue = token.ToString();
+            var tokenValue = token.ToString();
             if (token.GetType().Name.Equals("JVALUE", StringComparison.OrdinalIgnoreCase) && token.Type == JTokenType.Null)
               value = null;
             else if (valueType.Equals("Date", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(tokenValue))
             {
-              string val = (token.Parent.ToString().Split(new char[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries).Length > 1) ? token.Parent.ToString().Split(new char[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries)[1] : tokenValue;
+              var val = (token.Parent.ToString().Split(new char[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries).Length > 1) ? token.Parent.ToString().Split(new char[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries)[1] : tokenValue;
               value = val.Replace("\"", "").Trim();
             }
             else if (valueType.Equals("Boolean", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(tokenValue))
@@ -286,12 +286,12 @@ namespace JsonToJsonMapper
         {
           JContainer json;
           json = jsonObject.Parent;
-          for (int i = 2; i < key.Split(new string[] { "[{parent}]" }, StringSplitOptions.None).Length; i++)
+          for (var i = 2; i < key.Split(new string[] { "[{parent}]" }, StringSplitOptions.None).Length; i++)
           {
             json = json.Parent;
           }
 
-          JToken valueToken = json.SelectToken(key.Replace("[{parent}].", "").Replace("$.", ""));
+          var valueToken = json.SelectToken(key.Replace("[{parent}].", "").Replace("$.", ""));
           if (valueToken != null)
           {
             valueType = valueToken.Type.ToString();

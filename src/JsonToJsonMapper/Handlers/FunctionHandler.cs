@@ -17,7 +17,7 @@ namespace JsonToJsonMapper
       string nullString = null;
       var parameters = transform["Params"].ToObject<List<dynamic>>();
       var function = transform["Function"].Value<string>();
-      string ignoreEmptyValue = transform["IgnoreEmptyParams"] != null ? transform["IgnoreEmptyParams"].Value<string>() : string.Empty;
+      var ignoreEmptyValue = transform["IgnoreEmptyParams"] != null ? transform["IgnoreEmptyParams"].Value<string>() : string.Empty;
       if (!string.IsNullOrWhiteSpace(function) && function.Equals("URIESCAPEDATASTRING", StringComparison.OrdinalIgnoreCase) == false)
       {
         if (parameters != null)
@@ -60,7 +60,7 @@ namespace JsonToJsonMapper
                 {
                   JContainer json;
                   json = input.Parent;
-                  for (int i = 2; i < item.Split(new string[] { "[{parent}]" }, System.StringSplitOptions.None).Length; i++)
+                  for (var i = 2; i < item.Split(new string[] { "[{parent}]" }, System.StringSplitOptions.None).Length; i++)
                   {
                     json = json.Parent;
                   }
@@ -103,9 +103,9 @@ namespace JsonToJsonMapper
           return ConCat(inputParam, transform["Delimeter"].Value<string>());
         case "REPLACEVALUE":
         {
-          string compareToValue = transform["CompareToValue"].Value<string>();
-          string returnValue = transform["ReturnValue"].Value<string>();
-          string defaultValue = transform["DefaultValue"].Value<string>();
+          var compareToValue = transform["CompareToValue"].Value<string>();
+          var returnValue = transform["ReturnValue"].Value<string>();
+          var defaultValue = transform["DefaultValue"].Value<string>();
 
           compareToValue = GetCompareValue(input, nullString, compareToValue);
           returnValue = GetTokenValue(input, nullString, returnValue);
@@ -114,9 +114,9 @@ namespace JsonToJsonMapper
         }
         case "REPLACEVALUEWITHREGEXCOMPARISON":
         {
-          string compareToValue = transform["CompareToValue"].Value<string>();
-          string returnValue = transform["ReturnValue"].Value<string>();
-          string defaultValue = transform["DefaultValue"].Value<string>();
+          var compareToValue = transform["CompareToValue"].Value<string>();
+          var returnValue = transform["ReturnValue"].Value<string>();
+          var defaultValue = transform["DefaultValue"].Value<string>();
           compareToValue = GetCompareValue(input, nullString, compareToValue);
 
           returnValue = GetTokenValue(input, nullString, returnValue);
@@ -126,10 +126,10 @@ namespace JsonToJsonMapper
         }
         case "SPLIT":
         {
-          char delimeter = transform["Delimeter"].Value<char>();
-          int index = transform["Index"].Value<int>();
+          var delimeter = transform["Delimeter"].Value<char>();
+          var index = transform["Index"].Value<int>();
           var positionToken = transform["Position"];
-          string position = positionToken != null ? positionToken.ToString() : string.Empty;
+          var position = positionToken != null ? positionToken.ToString() : string.Empty;
           return Split(inputParam, delimeter, index, position);
         }
         case "TOUPPERCASE":
@@ -219,8 +219,8 @@ namespace JsonToJsonMapper
                 {
                   if (token.Type != JTokenType.Null)
                   {
-                    string data = token.ToString();
-                    string uriEscapedData = Uri.EscapeDataString(data);
+                    var data = token.ToString();
+                    var uriEscapedData = Uri.EscapeDataString(data);
                     token.Replace(uriEscapedData);
                   }
                 }
@@ -259,19 +259,19 @@ namespace JsonToJsonMapper
     {
       if (string.IsNullOrEmpty(position))
       {
-        char[] delimiters = new char[] { delimeter };
+        var delimiters = new char[] { delimeter };
         return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries)[index];
       }
       else
       {
         if (position.Equals("FIRST", StringComparison.OrdinalIgnoreCase))
         {
-          char[] delimiters = new char[] { delimeter };
+          var delimiters = new char[] { delimeter };
           return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
         }
         else if (position.Equals("LAST", StringComparison.OrdinalIgnoreCase))
         {
-          char[] delimiters = new char[] { delimeter };
+          var delimiters = new char[] { delimeter };
           return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
         }
         else

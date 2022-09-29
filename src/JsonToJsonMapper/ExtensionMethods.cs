@@ -6,7 +6,7 @@ namespace JsonToJsonMapper
   {
     public static void AddRange(this Dictionary<string, object> dictA, Dictionary<string, object> dictB)
     {
-      foreach (KeyValuePair<string, object> pair in dictB)
+      foreach (var pair in dictB)
       {
         dictA[pair.Key] = pair.Value;
       }

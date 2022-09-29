@@ -17,9 +17,9 @@ namespace JsonToJsonMapper
     /// <returns></returns>
     public dynamic Run(JObject config, JObject input)
     {
-      object value = input["value"].Value<object>();
-      string dataType = config["DataType"].Value<string>();
-      string format = config["Format"].Value<string>();
+      var value = input["value"].Value<object>();
+      var dataType = config["DataType"].Value<string>();
+      var format = config["Format"].Value<string>();
 
       if (value == null || ((JToken)value).Type == JTokenType.Null)
         return value;
@@ -33,7 +33,7 @@ namespace JsonToJsonMapper
               return Convert.ToInt64(value);
             case "JOBJECT":
             {
-              JToken Jtokenvalue = (JToken)value;
+              var Jtokenvalue = (JToken)value;
               if (Jtokenvalue.Type == JTokenType.Object)
                 return (JObject)Jtokenvalue;
               else
@@ -41,7 +41,7 @@ namespace JsonToJsonMapper
             }
             case "JARRAY":
             {
-              JToken Jtokenvalue = (JToken)value;
+              var Jtokenvalue = (JToken)value;
               if (Jtokenvalue.Type == JTokenType.Array)
               {
                 if (Jtokenvalue.Any())
@@ -72,8 +72,8 @@ namespace JsonToJsonMapper
               return new Guid(value.ToString());
             case "DATETIME":
             {
-              string valueType = value.ToString();
-              Regex x = new Regex(@".*[+-][0-9][0-9][:]");
+              var valueType = value.ToString();
+              var x = new Regex(@".*[+-][0-9][0-9][:]");
               if (x.IsMatch(valueType))
                 return DateTimeOffset.Parse(valueType, CultureInfo.InvariantCulture);
               else
@@ -81,12 +81,12 @@ namespace JsonToJsonMapper
             }
             case "CUSTOMDATETIME":
             {
-              string valueType = value.ToString();
-              Regex x = new Regex(@".[+-][0-9]{4}");
+              var valueType = value.ToString();
+              var x = new Regex(@".[+-][0-9]{4}");
               if (x.IsMatch(valueType))
               {
-                int pos = valueType.IndexOf("Z", StringComparison.OrdinalIgnoreCase);
-                String datetime = valueType.Substring(0, pos);
+                var pos = valueType.IndexOf("Z", StringComparison.OrdinalIgnoreCase);
+                var datetime = valueType.Substring(0, pos);
                 return datetime;
               }
               else
@@ -108,7 +108,7 @@ namespace JsonToJsonMapper
             }
             case "INT?":
             {
-              decimal dval = Convert.ToDecimal(value.ToString());
+              var dval = Convert.ToDecimal(value.ToString());
               return Decimal.ToInt32(dval);
             }
             case "GUID?":
@@ -130,7 +130,7 @@ namespace JsonToJsonMapper
               DateTime dateTime;
               if (DateTime.TryParse(value.ToString(), out dateTime))
               {
-                string utcDateTime = dateTime.ToString("s");
+                var utcDateTime = dateTime.ToString("s");
                 var zone = TimeZoneInfo.FindSystemTimeZoneById("UTC");
                 utcDateTime = utcDateTime + "+" + zone.BaseUtcOffset.ToString();
                 return utcDateTime;
@@ -145,7 +145,7 @@ namespace JsonToJsonMapper
               DateTime dateTime;
               if (DateTime.TryParse(value.ToString(), out dateTime))
               {
-                string timeInUTCFormat = dateTime.ToString("yyyy-MM-ddTHH:mm:sszzz");
+                var timeInUTCFormat = dateTime.ToString("yyyy-MM-ddTHH:mm:sszzz");
                 return timeInUTCFormat;
               }
 
@@ -153,11 +153,11 @@ namespace JsonToJsonMapper
             }
             case "REMOVEDATETIMEOFFSET":
             {
-              string valueType = value.ToString();
+              var valueType = value.ToString();
               if (valueType.Contains("Z"))
               {
-                int pos = valueType.IndexOf("Z", StringComparison.OrdinalIgnoreCase);
-                string datetime = valueType.Substring(0, pos + 1); //including 'Z' in the output
+                var pos = valueType.IndexOf("Z", StringComparison.OrdinalIgnoreCase);
+                var datetime = valueType.Substring(0, pos + 1); //including 'Z' in the output
                 return datetime;
               }
 

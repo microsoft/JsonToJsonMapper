@@ -23,9 +23,9 @@ namespace JsonToJsonMapper
     /// <returns></returns>
     public dynamic Run(JObject transform, JObject input)
     {
-      StringBuilder inputParam = new StringBuilder();
-      List<string> parameters = transform["Params"].ToObject<List<string>>();
-      string scriptName = transform["ScriptName"].Value<string>();
+      var inputParam = new StringBuilder();
+      var parameters = transform["Params"].ToObject<List<string>>();
+      var scriptName = transform["ScriptName"].Value<string>();
 
       foreach (var item in parameters)
       {

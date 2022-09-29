@@ -13,16 +13,16 @@ namespace JsonToJsonMapper
     /// <returns></returns>
     public dynamic Run(JObject rule, JObject input)
     {
-      string sourceColumn = rule["SourceColumn"].Value<string>();
-      string transformValueKey = rule["TransformValue"]["KeyLookupField"].Value<string>();
-      string transformValuePrependText = rule["TransformValue"]["PrependKeyText"].Value<string>();
-      string transformValue = rule["TransformValue"]["ValueLookupField"].Value<string>();
+      var sourceColumn = rule["SourceColumn"].Value<string>();
+      var transformValueKey = rule["TransformValue"]["KeyLookupField"].Value<string>();
+      var transformValuePrependText = rule["TransformValue"]["PrependKeyText"].Value<string>();
+      var transformValue = rule["TransformValue"]["ValueLookupField"].Value<string>();
 
       var tokens = input.SelectTokens(sourceColumn);
-      Dictionary<string, object> array = new Dictionary<string, object>();
+      var array = new Dictionary<string, object>();
       foreach (var i in tokens)
       {
-        string key = string.Empty;
+        var key = string.Empty;
         var token = i.SelectToken(transformValueKey);
         if (token != null)
           key = transformValuePrependText + token.ToString().Replace(" ", string.Empty);
