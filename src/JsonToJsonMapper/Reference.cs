@@ -1,8 +1,7 @@
-﻿namespace JsonToJsonMapper
+﻿namespace JsonToJsonMapper;
+
+public class Reference
 {
-  public class Reference
-  {
-    public string Assembly { get; set; }
-    public string NameSpace { get; set; }
-  }
+  public string Assembly { get; set; }
+  public string NameSpace { get; set; }
 }

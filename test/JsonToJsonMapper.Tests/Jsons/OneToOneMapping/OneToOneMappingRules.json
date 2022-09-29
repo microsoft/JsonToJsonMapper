@@ -1,6 +1,5 @@
 ﻿{
   "MappingRuleConfig": {
-
     "TruthTable": [
       {
         "SourceColumn": "",
@@ -16,48 +15,37 @@
               "key": "Agriculture & Mining",
               "value": "Agriculture, Forestry, & Fishing"
             },
-
             {
               "key": "Business Services",
               "value": "Services"
             },
-
             {
               "key": "Computers & Electronics",
               "value": "Communications & Media"
             },
-
             {
-
               "key": "Consumer Services",
               "value": "Services"
             },
-
             {
               "key": "Education",
               "value": "Education"
             },
-
             {
               "key": "Energy & Utilities",
               "value": "Power & Utilities"
             },
-
             {
               "key": "Financial Services",
               "value": "Financial Services"
             },
-
             {
               "key": "Government",
               "value": "Government"
             }
-           
           ]
-
         }
       }
-
     ]
   }
 }

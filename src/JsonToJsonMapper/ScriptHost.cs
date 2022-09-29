@@ -1,7 +1,6 @@
-﻿namespace JsonToJsonMapper
+﻿namespace JsonToJsonMapper;
+
+public class ScriptHost
 {
-  public class ScriptHost
-  {
-    public string Args { get; set; }
-  }
+  public string Args { get; set; }
 }

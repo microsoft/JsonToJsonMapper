@@ -1,228 +1,221 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
+﻿namespace JsonToJsonMapper;
 
-namespace JsonToJsonMapper
+using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
+
+public class FunctionHandler : ITransformationHandler
 {
-  public class FunctionHandler : ITransformationHandler
+  public dynamic Run(JObject transform, JObject input)
   {
-    public dynamic Run(JObject transform, JObject input)
+    var inputParam = new List<string>();
+    string nullString = null;
+    var parameters = transform["Params"].ToObject<List<dynamic>>();
+    var function = transform["Function"].Value<string>();
+    var ignoreEmptyValue = transform["IgnoreEmptyParams"] != null ? transform["IgnoreEmptyParams"].Value<string>() : string.Empty;
+    if (!string.IsNullOrWhiteSpace(function) && function.Equals("URIESCAPEDATASTRING", StringComparison.OrdinalIgnoreCase) == false)
     {
-      var inputParam = new List<string>();
-      string nullString = null;
-      var parameters = transform["Params"].ToObject<List<dynamic>>();
-      var function = transform["Function"].Value<string>();
-      var ignoreEmptyValue = transform["IgnoreEmptyParams"] != null ? transform["IgnoreEmptyParams"].Value<string>() : string.Empty;
-      if (!string.IsNullOrWhiteSpace(function) && function.Equals("URIESCAPEDATASTRING", StringComparison.OrdinalIgnoreCase) == false)
+      if (parameters != null)
       {
-        if (parameters != null)
+        foreach (var item in parameters)
         {
-          foreach (var item in parameters)
-          {
-            if (!(item is JToken))
-              if (item.StartsWith("$"))
+          if (!(item is JToken))
+            if (item.StartsWith("$"))
+            {
+              if (!item.ToUpperInvariant().Contains("[{PARENT}]"))
               {
-                if (!item.ToUpperInvariant().Contains("[{PARENT}]"))
+                var tokens = input.SelectTokens((string)item);
+                if (tokens != null && tokens.Any())
                 {
-                  var tokens = input.SelectTokens((string)item);
-                  if (tokens != null && tokens.Any())
+                  foreach (var i in tokens)
                   {
-                    foreach (var i in tokens)
+                    if (i.Type == JTokenType.Null)
                     {
-                      if (i.Type == JTokenType.Null)
-                      {
-                        inputParam.Add(nullString);
-                      }
-                      else if (string.IsNullOrWhiteSpace(i.ToString()))
-                      {
-                        if (Convert.ToBoolean(ignoreEmptyValue))
-                          inputParam.Add(nullString);
-                        else
-                          inputParam.Add(i.ToString());
-                      }
-                      else
-                      {
-                        inputParam.Add(i.ToString());
-                      }
+                      inputParam.Add(nullString);
                     }
-                  }
-                  else
-                  {
-                    inputParam.Add(nullString);
+                    else if (string.IsNullOrWhiteSpace(i.ToString()))
+                    {
+                      if (Convert.ToBoolean(ignoreEmptyValue))
+                        inputParam.Add(nullString);
+                      else
+                        inputParam.Add(i.ToString());
+                    }
+                    else
+                    {
+                      inputParam.Add(i.ToString());
+                    }
                   }
                 }
                 else
                 {
-                  JContainer json;
-                  json = input.Parent;
-                  for (var i = 2; i < item.Split(new string[] { "[{parent}]" }, System.StringSplitOptions.None).Length; i++)
-                  {
-                    json = json.Parent;
-                  }
+                  inputParam.Add(nullString);
+                }
+              }
+              else
+              {
+                JContainer json;
+                json = input.Parent;
+                for (var i = 2; i < item.Split(new string[] { "[{parent}]" }, StringSplitOptions.None).Length; i++)
+                {
+                  json = json.Parent;
+                }
 
-                  JToken valueToken = json.SelectToken(item.Replace("[{parent}].", "").Replace("$.", ""));
-                  if (valueToken != null)
+                JToken valueToken = json.SelectToken(item.Replace("[{parent}].", "").Replace("$.", ""));
+                if (valueToken != null)
+                {
+                  if (valueToken.Type == JTokenType.Array || valueToken.Type == JTokenType.Object)
+                    inputParam.Add(valueToken.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", ""));
+                  else if (valueToken.Value<string>() != null)
                   {
-                    if (valueToken.Type == JTokenType.Array || valueToken.Type == JTokenType.Object)
-                      inputParam.Add(valueToken.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", ""));
-                    else if (valueToken.Value<string>() != null)
+                    if (string.IsNullOrWhiteSpace(valueToken.ToString()))
                     {
-                      if (string.IsNullOrWhiteSpace(valueToken.ToString()))
-                      {
-                        if (Convert.ToBoolean(ignoreEmptyValue))
-                          inputParam.Add(nullString);
-                        else
-                          inputParam.Add(valueToken.ToString());
-                      }
+                      if (Convert.ToBoolean(ignoreEmptyValue))
+                        inputParam.Add(nullString);
                       else
-                      {
                         inputParam.Add(valueToken.ToString());
-                      }
                     }
                     else
-                      inputParam.Add(nullString);
+                    {
+                      inputParam.Add(valueToken.ToString());
+                    }
                   }
                   else
                     inputParam.Add(nullString);
                 }
+                else
+                  inputParam.Add(nullString);
               }
-              else
-                inputParam.Add(item);
-          }
+            }
+            else
+              inputParam.Add(item);
         }
       }
-
-      switch (function.ToUpperInvariant())
-      {
-        case "CONCAT":
-          return ConCat(inputParam, transform["Delimeter"].Value<string>());
-        case "REPLACEVALUE":
-        {
-          var compareToValue = transform["CompareToValue"].Value<string>();
-          var returnValue = transform["ReturnValue"].Value<string>();
-          var defaultValue = transform["DefaultValue"].Value<string>();
-
-          compareToValue = GetCompareValue(input, nullString, compareToValue);
-          returnValue = GetTokenValue(input, nullString, returnValue);
-          defaultValue = GetTokenValue(input, nullString, defaultValue);
-          return ReplaceValue(inputParam, compareToValue, returnValue, defaultValue);
-        }
-        case "REPLACEVALUEWITHREGEXCOMPARISON":
-        {
-          var compareToValue = transform["CompareToValue"].Value<string>();
-          var returnValue = transform["ReturnValue"].Value<string>();
-          var defaultValue = transform["DefaultValue"].Value<string>();
-          compareToValue = GetCompareValue(input, nullString, compareToValue);
-
-          returnValue = GetTokenValue(input, nullString, returnValue);
-          defaultValue = GetTokenValue(input, nullString, defaultValue);
-
-          return ReplaceValueWithRegexComparison(inputParam, compareToValue, returnValue, defaultValue);
-        }
-        case "SPLIT":
-        {
-          var delimeter = transform["Delimeter"].Value<char>();
-          var index = transform["Index"].Value<int>();
-          var positionToken = transform["Position"];
-          var position = positionToken != null ? positionToken.ToString() : string.Empty;
-          return Split(inputParam, delimeter, index, position);
-        }
-        case "TOUPPERCASE":
-        {
-          return inputParam[0] != null ? inputParam[0].ToUpperInvariant() : string.Empty;
-        }
-        case "TOLOWERCASE":
-        {
-          return inputParam[0] != null ? inputParam[0].ToLowerInvariant() : string.Empty;
-        }
-        case "RANGEMAPPING":
-        {
-          return mapRange((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
-        }
-        case "ONETOONEMAPPING":
-        {
-          return mapOneToOne((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
-        }
-        case "URIESCAPEDATASTRING":
-        {
-          UriEscapeDataString(input, parameters);
-          break;
-        }
-      }
-
-      return null;
     }
 
-    private string GetTokenValue(JObject input, string nullString, string Value)
+    switch (function.ToUpperInvariant())
     {
-      if (Value != null && Value.StartsWith("$."))
+      case "CONCAT":
+        return ConCat(inputParam, transform["Delimeter"].Value<string>());
+      case "REPLACEVALUE":
       {
-        var returnValueToken = input.SelectToken(Value);
-        if (returnValueToken == null)
+        var compareToValue = transform["CompareToValue"].Value<string>();
+        var returnValue = transform["ReturnValue"].Value<string>();
+        var defaultValue = transform["DefaultValue"].Value<string>();
+
+        compareToValue = GetCompareValue(input, nullString, compareToValue);
+        returnValue = GetTokenValue(input, nullString, returnValue);
+        defaultValue = GetTokenValue(input, nullString, defaultValue);
+        return ReplaceValue(inputParam, compareToValue, returnValue, defaultValue);
+      }
+      case "REPLACEVALUEWITHREGEXCOMPARISON":
+      {
+        var compareToValue = transform["CompareToValue"].Value<string>();
+        var returnValue = transform["ReturnValue"].Value<string>();
+        var defaultValue = transform["DefaultValue"].Value<string>();
+        compareToValue = GetCompareValue(input, nullString, compareToValue);
+
+        returnValue = GetTokenValue(input, nullString, returnValue);
+        defaultValue = GetTokenValue(input, nullString, defaultValue);
+
+        return ReplaceValueWithRegexComparison(inputParam, compareToValue, returnValue, defaultValue);
+      }
+      case "SPLIT":
+      {
+        var delimeter = transform["Delimeter"].Value<char>();
+        var index = transform["Index"].Value<int>();
+        var positionToken = transform["Position"];
+        var position = positionToken != null ? positionToken.ToString() : string.Empty;
+        return Split(inputParam, delimeter, index, position);
+      }
+      case "TOUPPERCASE":
+      {
+        return inputParam[0] != null ? inputParam[0].ToUpperInvariant() : string.Empty;
+      }
+      case "TOLOWERCASE":
+      {
+        return inputParam[0] != null ? inputParam[0].ToLowerInvariant() : string.Empty;
+      }
+      case "RANGEMAPPING":
+      {
+        return mapRange((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
+      }
+      case "ONETOONEMAPPING":
+      {
+        return mapOneToOne((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
+      }
+      case "URIESCAPEDATASTRING":
+      {
+        UriEscapeDataString(input, parameters);
+        break;
+      }
+    }
+
+    return null;
+  }
+
+  private string GetTokenValue(JObject input, string nullString, string Value)
+  {
+    if (Value != null && Value.StartsWith("$."))
+    {
+      var returnValueToken = input.SelectToken(Value);
+      if (returnValueToken == null)
+      {
+        Value = nullString;
+      }
+      else
+      {
+        if (returnValueToken.Type == JTokenType.Null)
         {
           Value = nullString;
         }
         else
         {
-          if (returnValueToken.Type == JTokenType.Null)
-          {
-            Value = nullString;
-          }
-          else
-          {
-            Value = returnValueToken.ToString();
-          }
+          Value = returnValueToken.ToString();
         }
       }
-
-      return Value;
     }
 
-    private string GetCompareValue(JObject input, string nullString, string compareToValue)
+    return Value;
+  }
+
+  private string GetCompareValue(JObject input, string nullString, string compareToValue)
+  {
+    if (compareToValue != null && compareToValue.StartsWith("$."))
     {
-      if (compareToValue != null && compareToValue.StartsWith("$."))
+      var compareToValueToken = input.SelectToken(compareToValue);
+      if (compareToValueToken == null)
       {
-        var compareToValueToken = input.SelectToken(compareToValue);
-        if (compareToValueToken == null)
-        {
-          compareToValue = nullString;
-        }
-        else
-        {
-          compareToValue = compareToValueToken.ToString();
-        }
+        compareToValue = nullString;
       }
-
-      return compareToValue;
+      else
+      {
+        compareToValue = compareToValueToken.ToString();
+      }
     }
 
-    private void UriEscapeDataString(JObject input, IList<dynamic> parameters)
+    return compareToValue;
+  }
+
+  private void UriEscapeDataString(JObject input, IList<dynamic> parameters)
+  {
+    if (parameters != null)
     {
-      if (parameters != null)
+      foreach (var parameter in parameters)
       {
-        foreach (var parameter in parameters)
+        if (parameter != null)
         {
-          if (parameter != null)
+          string theParameter = parameter.ToString();
+          if (theParameter.StartsWith("$"))
           {
-            string theParameter = parameter.ToString();
-            if (theParameter.StartsWith("$"))
+            var parameterToken = input.SelectTokens(theParameter);
+            if (parameterToken != null && parameterToken.Any())
             {
-              var parameterToken = input.SelectTokens(theParameter);
-              if (parameterToken != null && parameterToken.Any())
+              foreach (var token in parameterToken)
               {
-                foreach (var token in parameterToken)
+                if (token.Type != JTokenType.Null)
                 {
-                  if (token.Type != JTokenType.Null)
-                  {
-                    var data = token.ToString();
-                    var uriEscapedData = Uri.EscapeDataString(data);
-                    token.Replace(uriEscapedData);
-                  }
+                  var data = token.ToString();
+                  var uriEscapedData = Uri.EscapeDataString(data);
+                  token.Replace(uriEscapedData);
                 }
               }
             }
@@ -230,63 +223,63 @@ namespace JsonToJsonMapper
         }
       }
     }
+  }
 
-    private string ConCat(List<string> args, string delimeter)
+  private string ConCat(List<string> args, string delimeter)
+  {
+    return string.Join(delimeter, args.Where(value => value != null).ToList());
+  }
+
+  private string ReplaceValue(List<string> args, string compareToValue, string returnValue, string defaultValue)
+  {
+    if (args[0] == null && compareToValue == null)
+      return returnValue;
+    if (args[0] != null && args[0].Equals(compareToValue, StringComparison.OrdinalIgnoreCase))
+      return returnValue;
+
+    return defaultValue;
+  }
+
+  private string ReplaceValueWithRegexComparison(List<string> args, string compareToValue, string returnValue, string defaultValue)
+  {
+    if (args[0] == null && compareToValue == null)
+      return returnValue;
+    if (args[0] != null && compareToValue != null && Regex.IsMatch(args[0], compareToValue, RegexOptions.IgnoreCase))
+      return returnValue;
+    return defaultValue;
+  }
+
+  private string Split(List<string> args, char delimeter, int index, string position = "")
+  {
+    if (string.IsNullOrEmpty(position))
     {
-      return string.Join(delimeter, args.Where(value => value != null).ToList());
+      var delimiters = new char[] { delimeter };
+      return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries)[index];
     }
-
-    private string ReplaceValue(List<string> args, string compareToValue, string returnValue, string defaultValue)
+    else
     {
-      if (args[0] == null && compareToValue == null)
-        return returnValue;
-      if (args[0] != null && args[0].Equals(compareToValue, StringComparison.OrdinalIgnoreCase))
-        return returnValue;
-
-      return defaultValue;
-    }
-
-    private string ReplaceValueWithRegexComparison(List<string> args, string compareToValue, string returnValue, string defaultValue)
-    {
-      if (args[0] == null && compareToValue == null)
-        return returnValue;
-      if (args[0] != null && compareToValue != null && Regex.IsMatch(args[0], compareToValue, RegexOptions.IgnoreCase))
-        return returnValue;
-      return defaultValue;
-    }
-
-    private string Split(List<string> args, char delimeter, int index, string position = "")
-    {
-      if (string.IsNullOrEmpty(position))
+      if (position.Equals("FIRST", StringComparison.OrdinalIgnoreCase))
       {
         var delimiters = new char[] { delimeter };
-        return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries)[index];
+        return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+      }
+      else if (position.Equals("LAST", StringComparison.OrdinalIgnoreCase))
+      {
+        var delimiters = new char[] { delimeter };
+        return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
       }
       else
-      {
-        if (position.Equals("FIRST", StringComparison.OrdinalIgnoreCase))
-        {
-          var delimiters = new char[] { delimeter };
-          return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
-        }
-        else if (position.Equals("LAST", StringComparison.OrdinalIgnoreCase))
-        {
-          var delimiters = new char[] { delimeter };
-          return args[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
-        }
-        else
-          return string.Empty;
-      }
+        return string.Empty;
     }
+  }
 
-    private string mapRange(JArray truthTable, string value)
-    {
-      return Convert.ToString(truthTable.SelectToken($"$.[?(@.min<'{Convert.ToInt64(value)}' && @.max>'{Convert.ToInt64(value)}')].value"));
-    }
+  private string mapRange(JArray truthTable, string value)
+  {
+    return Convert.ToString(truthTable.SelectToken($"$.[?(@.min<'{Convert.ToInt64(value)}' && @.max>'{Convert.ToInt64(value)}')].value"));
+  }
 
-    private string mapOneToOne(JArray truthTable, string value)
-    {
-      return Convert.ToString(truthTable.SelectToken($"$.[?(@.key=='{value}')].value"));
-    }
+  private string mapOneToOne(JArray truthTable, string value)
+  {
+    return Convert.ToString(truthTable.SelectToken($"$.[?(@.key=='{value}')].value"));
   }
 }

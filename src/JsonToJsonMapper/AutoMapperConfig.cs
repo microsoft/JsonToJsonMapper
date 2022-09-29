@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
+﻿namespace JsonToJsonMapper;
 
-namespace JsonToJsonMapper
+public class AutoMapperConfig
 {
-  public class AutoMapperConfig
-  {
-    public List<ScriptDefinitions> Scripts { get; set; }
-    public MappingRule MappingRuleConfig { get; set; }
-  }
+  public List<ScriptDefinitions> Scripts { get; set; }
+  public MappingRule MappingRuleConfig { get; set; }
 }

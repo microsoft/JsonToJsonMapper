@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
+﻿namespace JsonToJsonMapper;
+
 using Newtonsoft.Json;
 
-namespace JsonToJsonMapper
+public class JsonTransform
 {
-  public class JsonTransform
-  {
-    [JsonExtensionData]
-    public Dictionary<string, object> Json { get; set; }
+  [JsonExtensionData]
+  public Dictionary<string, object> Json { get; set; }
 
-    public JsonTransform()
-    {
-      Json = new Dictionary<string, object>();
-    }
+  public JsonTransform()
+  {
+    Json = new Dictionary<string, object>();
   }
 }
