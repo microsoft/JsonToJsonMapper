@@ -65,15 +65,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapper.cs" />
+    <Compile Include="AutoMapperConfig.cs" />
+    <Compile Include="ConvertValue.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Handlers\FunctionHandler.cs" />
     <Compile Include="Handlers\ITransformationHandler.cs" />
-    <Compile Include="Handlers\TransformationHandlersFactory.cs" />
+    <Compile Include="Handlers\TransformationFactory.cs" />
     <Compile Include="Handlers\TypeConverterHandler.cs" />
     <Compile Include="Handlers\ValueMappingHandler.cs" />
     <Compile Include="Handlers\RoslynScriptHandler.cs" />
     <Compile Include="Handlers\TransposeHandler.cs" />
+    <Compile Include="JsonTransform.cs" />
+    <Compile Include="MappingRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reference.cs" />
+    <Compile Include="Rule.cs" />
+    <Compile Include="ScriptDefinitions.cs" />
+    <Compile Include="ScriptHost.cs" />
+    <Compile Include="Transform.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

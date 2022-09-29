@@ -132,6 +132,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AutoMapperTest.cs" />
+    <Compile Include="LeadRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,8 @@
 
 namespace JsonToJsonMapper
 {
-    public interface ITransformationHandler
-    {
-        dynamic Run(JObject config, JObject input);
-    }
+  public interface ITransformationHandler
+  {
+    dynamic Run(JObject config, JObject input);
+  }
 }
