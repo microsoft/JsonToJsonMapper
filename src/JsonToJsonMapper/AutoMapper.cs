@@ -161,7 +161,9 @@ public class AutoMapper
     foreach (var rule in mapping.TruthTable)
     {
       // handle transpose
-      if (rule.TransformValue != null && rule.TransformValue.Type != null && string.Equals(rule.TransformValue.Type, "promoteArrayToProperty", StringComparison.OrdinalIgnoreCase))
+      if (rule.TransformValue != null && 
+          rule.TransformValue.Type != null && 
+          string.Equals(rule.TransformValue.Type, "promoteArrayToProperty", StringComparison.OrdinalIgnoreCase))
       {
         Dictionary<string, object> transposeResponse = _handler.GetHandler<TransposeHandler>()
           .Run(JObject.FromObject(rule), jsonObject);
@@ -186,7 +188,10 @@ public class AutoMapper
 
           var finalValue = _handler.GetHandler<TypeConverterHandler>()
             .Run(JObject.FromObject(rule), JObject.FromObject(new { value = value }));
-          if (finalValue != null || finalValue.Type != JTokenType.Null || (finalValue == null && !mapping.IgnoreNullValue) || (finalValue.Type == JTokenType.Null && !mapping.IgnoreNullValue))
+          if (finalValue != null || 
+              finalValue.Type != JTokenType.Null || 
+              (finalValue == null && !mapping.IgnoreNullValue) || 
+              (finalValue.Type == JTokenType.Null && !mapping.IgnoreNullValue))
           {
             jsonString.Json.Add(destinationValue, finalValue);
           }
