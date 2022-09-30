@@ -160,8 +160,8 @@ public class AutoMapper
     foreach (var rule in mapping.TruthTable)
     {
       // handle transpose
-      if (rule.TransformValue != null && 
-          rule.TransformValue.Type != null && 
+      if (rule.TransformValue != null &&
+          rule.TransformValue.Type != null &&
           string.Equals(rule.TransformValue.Type, "promoteArrayToProperty", StringComparison.OrdinalIgnoreCase))
       {
         Dictionary<string, object> transposeResponse = _handler.GetHandler<TransposeHandler>()
@@ -179,16 +179,13 @@ public class AutoMapper
           var destinationValue = rule.DestinationColumn.StartsWith("$") ? jsonObject.SelectToken(rule.DestinationColumn).ToString() : rule.DestinationColumn;
 
           var value = GetValue(jsonObject, rule.SourceColumn, rule.TransformValue, out var valueType);
-          if (rule.DataType == null)
-          {
-            rule.DataType = valueType;
-          }
+          rule.DataType ??= valueType;
 
           var finalValue = _handler.GetHandler<TypeConverterHandler>()
             .Run(JObject.FromObject(rule), JObject.FromObject(new { value = value }));
-          if (finalValue != null || 
-              finalValue.Type != JTokenType.Null || 
-              (finalValue == null && !mapping.IgnoreNullValue) || 
+          if (finalValue != null ||
+              finalValue.Type != JTokenType.Null ||
+              (finalValue == null && !mapping.IgnoreNullValue) ||
               (finalValue.Type == JTokenType.Null && !mapping.IgnoreNullValue))
           {
             jsonString.Json.Add(destinationValue, finalValue);
@@ -206,17 +203,19 @@ public class AutoMapper
         {
           // Recursive call to handle complex type
           var result = ExecuteToJson(jsonObject, rule.ComplexType);
-          if (result != null)
+          if (result is null)
           {
-            if (!string.IsNullOrWhiteSpace(rule.DataType))
-            {
-              jsonString.Json.Add(rule.DestinationColumn, _handler.GetHandler<TypeConverterHandler>()
-                .Run(JObject.FromObject(rule), JObject.FromObject(new { value = result })));
-            }
-            else
-            {
-              jsonString.Json.Add(rule.DestinationColumn, result);
-            }
+            continue;
+          }
+
+          if (!string.IsNullOrWhiteSpace(rule.DataType))
+          {
+            jsonString.Json.Add(rule.DestinationColumn, _handler.GetHandler<TypeConverterHandler>()
+              .Run(JObject.FromObject(rule), JObject.FromObject(new { value = result })));
+          }
+          else
+          {
+            jsonString.Json.Add(rule.DestinationColumn, result);
           }
         }
       }
@@ -266,15 +265,19 @@ public class AutoMapper
 
   private string? GetValue(JObject jsonObject, string key, Transform transform, out string valueType)
   {
-    string? value = null;
+    string? value;
     valueType = "string";
 
-    if (transform != null && transform.Type != null && transform.Type.Equals("SCRIPT", StringComparison.OrdinalIgnoreCase))
+    if (transform != null &&
+        transform.Type != null &&
+        transform.Type.Equals("SCRIPT", StringComparison.OrdinalIgnoreCase))
     {
       return _handler.GetHandler<RoslynScriptHandler>().Run(JObject.FromObject(transform), jsonObject);
     }
 
-    if (transform != null && transform.Type != null && transform.Type.Equals("FUNCTION", StringComparison.OrdinalIgnoreCase))
+    if (transform != null &&
+        transform.Type != null &&
+        transform.Type.Equals("FUNCTION", StringComparison.OrdinalIgnoreCase))
     {
       return _handler.GetHandler<FunctionHandler>().Run(JObject.FromObject(transform), jsonObject);
     }
@@ -344,15 +347,15 @@ public class AutoMapper
     }
     else
     {
-      var jsonobjectvalue = jsonObject.GetValue(key, StringComparison.OrdinalIgnoreCase);
-      if (jsonobjectvalue == null || jsonobjectvalue.Type == JTokenType.Null)
+      var jsonObjectValue = jsonObject.GetValue(key, StringComparison.OrdinalIgnoreCase);
+      if (jsonObjectValue == null || jsonObjectValue.Type == JTokenType.Null)
       {
         value = null;
       }
       else
       {
-        valueType = jsonobjectvalue.Type.ToString();
-        value = jsonobjectvalue.ToString();
+        valueType = jsonObjectValue.Type.ToString();
+        value = jsonObjectValue.ToString();
         if (value.StartsWith("\""))
         {
           value = value.Substring(1);
