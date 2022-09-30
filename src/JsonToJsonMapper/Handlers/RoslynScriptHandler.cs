@@ -6,11 +6,11 @@ using Newtonsoft.Json.Linq;
 
 internal class RoslynScriptHandler : ITransformationHandler
 {
-  public Dictionary<string, Script> Scripts { get; set; }
+  private readonly Dictionary<string, Script> _scripts;
 
   public RoslynScriptHandler(Dictionary<string, Script> scripts)
   {
-    Scripts = scripts;
+    _scripts = scripts;
   }
 
   /// <summary>
@@ -32,9 +32,9 @@ internal class RoslynScriptHandler : ITransformationHandler
         if (input.SelectTokens(item) != null)
         {
           var tokens = input.SelectTokens(item);
-          foreach (var i in tokens)
+          foreach (var token in tokens)
           {
-            inputParam.Append(i.ToString());
+            inputParam.Append(token.ToString());
             if (tokens.Count() > 1)
             {
               inputParam.Append("[tokenDelimiter]");
@@ -53,7 +53,7 @@ internal class RoslynScriptHandler : ITransformationHandler
       }
     }
 
-    var result = Scripts[scriptName].RunAsync(new ScriptHost { Args = inputParam.ToString() });
+    var result = _scripts[scriptName].RunAsync(new ScriptHost { Args = inputParam.ToString() });
     return result.Result.ReturnValue.ToString();
   }
 }

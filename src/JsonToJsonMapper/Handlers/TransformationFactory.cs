@@ -2,7 +2,7 @@
 
 internal class TransformationFactory
 {
-  private readonly Dictionary<string, ITransformationHandler> registeredHandlers = new Dictionary<string, ITransformationHandler>();
+  private readonly Dictionary<string, ITransformationHandler> _registeredHandlers = new();
 
   /// <summary>
   /// Add handler to the dictionary
@@ -10,7 +10,7 @@ internal class TransformationFactory
   /// <param name="handler"></param>
   public void AddHandlers(ITransformationHandler handler)
   {
-    registeredHandlers[handler.GetType().Name] = handler;
+    _registeredHandlers[handler.GetType().Name] = handler;
   }
 
   /// <summary>
@@ -20,9 +20,6 @@ internal class TransformationFactory
   /// <returns></returns>
   public ITransformationHandler GetHandler<T>()
   {
-    if (!registeredHandlers.ContainsKey(typeof(T).Name))
-      return null;
-
-    return registeredHandlers[typeof(T).Name];
+    return !_registeredHandlers.ContainsKey(typeof(T).Name) ? null : _registeredHandlers[typeof(T).Name];
   }
 }
