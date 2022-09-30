@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 public class FunctionHandler : ITransformationHandler
 {
-  public dynamic Run(JObject transform, JObject input)
+  public dynamic? Run(JObject transform, JObject input)
   {
     var inputParam = new List<string>();
     string nullString = null;
@@ -164,12 +164,12 @@ public class FunctionHandler : ITransformationHandler
 
       case "RANGEMAPPING":
       {
-        return mapRange((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
+        return MapRange((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
       }
 
       case "ONETOONEMAPPING":
       {
-        return mapOneToOne((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
+        return MapOneToOne((JArray)transform.SelectToken("$.Params"), (string)input.SelectToken(transform.SelectToken("$.DefaultValue").ToString()));
       }
 
       case "URIESCAPEDATASTRING":
@@ -182,85 +182,74 @@ public class FunctionHandler : ITransformationHandler
     return null;
   }
 
-  private string GetTokenValue(JObject input, string nullString, string value)
+  private static string GetTokenValue(JObject input, string nullString, string value)
   {
     if (value != null && value.StartsWith("$."))
     {
       var returnValueToken = input.SelectToken(value);
-      if (returnValueToken == null)
-      {
-        value = nullString;
-      }
-      else
-      {
-        if (returnValueToken.Type == JTokenType.Null)
-        {
-          value = nullString;
-        }
-        else
-        {
-          value = returnValueToken.ToString();
-        }
-      }
+      value = returnValueToken == null ? nullString : returnValueToken.Type == JTokenType.Null ? nullString : returnValueToken.ToString();
     }
 
     return value;
   }
 
-  private string GetCompareValue(JObject input, string nullString, string compareToValue)
+  private static string GetCompareValue(JObject input, string nullString, string compareToValue)
   {
     if (compareToValue != null && compareToValue.StartsWith("$."))
     {
       var compareToValueToken = input.SelectToken(compareToValue);
-      if (compareToValueToken == null)
-      {
-        compareToValue = nullString;
-      }
-      else
-      {
-        compareToValue = compareToValueToken.ToString();
-      }
+      compareToValue = compareToValueToken == null ? nullString : compareToValueToken.ToString();
     }
 
     return compareToValue;
   }
 
-  private void UriEscapeDataString(JObject input, IList<dynamic> parameters)
+  private static void UriEscapeDataString(JObject input, IList<dynamic> parameters)
   {
-    if (parameters != null)
+    if (parameters == null)
     {
-      foreach (var parameter in parameters)
+      return;
+    }
+
+    foreach (var parameter in parameters)
+    {
+      if (parameter == null)
       {
-        if (parameter != null)
+        continue;
+      }
+
+      string theParameter = parameter.ToString();
+      if (!theParameter.StartsWith("$"))
+      {
+        continue;
+      }
+
+      var parameterToken = input.SelectTokens(theParameter);
+      if (parameterToken == null || !parameterToken.Any())
+      {
+        continue;
+      }
+
+      foreach (var token in parameterToken)
+      {
+        if (token.Type == JTokenType.Null)
         {
-          string theParameter = parameter.ToString();
-          if (theParameter.StartsWith("$"))
-          {
-            var parameterToken = input.SelectTokens(theParameter);
-            if (parameterToken != null && parameterToken.Any())
-            {
-              foreach (var token in parameterToken)
-              {
-                if (token.Type != JTokenType.Null)
-                {
-                  var data = token.ToString();
-                  var uriEscapedData = Uri.EscapeDataString(data);
-                  token.Replace(uriEscapedData);
-                }
-              }
-            }
-          }
+          continue;
         }
+
+        var data = token.ToString();
+        var uriEscapedData = Uri.EscapeDataString(data);
+        token.Replace(uriEscapedData);
       }
     }
   }
 
-  private string ConCat(List<string> args, string delimeter)
+  private static string? ConCat(List<string> args, string delimiter)
   {
-    return string.Join(delimeter, args.Where(value => value != null).ToList());
+    return string.Join(delimiter, args.Where(value => value != null).ToList());
   }
 
-  private string ReplaceValue(List<string> args, string compareToValue, string returnValue, string defaultValue)
+  private static string? ReplaceValue(List<string> args, string compareToValue, string? returnValue, string? defaultValue)
   {
     if (args[0] == null && compareToValue == null)
     {
@@ -275,7 +264,7 @@ public class FunctionHandler : ITransformationHandler
     return defaultValue;
   }
 
-  private string ReplaceValueWithRegexComparison(List<string> args, string compareToValue, string returnValue, string defaultValue)
+  private static string? ReplaceValueWithRegexComparison(List<string> args, string compareToValue, string? returnValue, string? defaultValue)
   {
     if (args[0] == null && compareToValue == null)
     {
@@ -290,7 +279,7 @@ public class FunctionHandler : ITransformationHandler
     return defaultValue;
   }
 
-  private string Split(List<string> args, char delimeter, int index, string position = "")
+  private static string? Split(List<string> args, char delimeter, int index, string position = "")
   {
     if (string.IsNullOrEmpty(position))
     {
@@ -313,12 +302,12 @@ public class FunctionHandler : ITransformationHandler
     return string.Empty;
   }
 
-  private string mapRange(JArray truthTable, string value)
+  private static string? MapRange(JArray truthTable, string value)
   {
     return Convert.ToString(truthTable.SelectToken($"$.[?(@.min<'{Convert.ToInt64(value)}' && @.max>'{Convert.ToInt64(value)}')].value"));
   }
 
-  private string mapOneToOne(JArray truthTable, string value)
+  private static string? MapOneToOne(JArray truthTable, string value)
   {
     return Convert.ToString(truthTable.SelectToken($"$.[?(@.key=='{value}')].value"));
   }

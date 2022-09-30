@@ -13,7 +13,7 @@ internal class TypeConverterHandler : ITransformationHandler
   /// <param name="config"></param>
   /// <param name="input"></param>
   /// <returns></returns>
-  public dynamic Run(JObject config, JObject input)
+  public dynamic? Run(JObject config, JObject input)
   {
     var value = input["value"].Value<object>();
     var dataType = config["DataType"].Value<string>();
@@ -38,39 +38,34 @@ internal class TypeConverterHandler : ITransformationHandler
 
       case "JOBJECT":
       {
-        var Jtokenvalue = (JToken)value;
-        if (Jtokenvalue.Type == JTokenType.Object)
+        var jtokenvalue = (JToken)value;
+        if (jtokenvalue.Type == JTokenType.Object)
         {
-          return (JObject)Jtokenvalue;
+          return (JObject)jtokenvalue;
         }
 
-        return JsonConvert.DeserializeObject(Jtokenvalue.ToString());
+        return JsonConvert.DeserializeObject(jtokenvalue.ToString());
       }
 
       case "JARRAY":
       {
-        var Jtokenvalue = (JToken)value;
-        if (Jtokenvalue.Type == JTokenType.Array)
+        var jtokenvalue = (JToken)value;
+        if (jtokenvalue.Type == JTokenType.Array)
         {
-          if (Jtokenvalue.Any())
-          {
-            return (JArray)Jtokenvalue;
-          }
-
-          return null;
+          return jtokenvalue.Any() ? (JArray)jtokenvalue : null;
         }
 
-        if (Jtokenvalue.Type == JTokenType.Object)
+        if (jtokenvalue.Type == JTokenType.Object)
         {
-          return new JArray(Jtokenvalue);
+          return new JArray(jtokenvalue);
         }
 
-        if (Jtokenvalue.ToString().StartsWith("[") && Jtokenvalue.ToString().EndsWith("]"))
+        if (jtokenvalue.ToString().StartsWith("[") && jtokenvalue.ToString().EndsWith("]"))
         {
-          return JArray.Parse(Jtokenvalue.ToString());
+          return JArray.Parse(jtokenvalue.ToString());
         }
 
-        return new JArray(Jtokenvalue);
+        return new JArray(jtokenvalue);
       }
 
       case "SHORT":
@@ -93,26 +88,21 @@ internal class TypeConverterHandler : ITransformationHandler
       {
         var valueType = value.ToString();
         var x = new Regex(@".*[+-][0-9][0-9][:]");
-        if (x.IsMatch(valueType))
-        {
-          return DateTimeOffset.Parse(valueType, CultureInfo.InvariantCulture);
-        }
-
-        return DateTime.Parse(valueType, CultureInfo.InvariantCulture);
+        return x.IsMatch(valueType) ? DateTimeOffset.Parse(valueType, CultureInfo.InvariantCulture) : DateTime.Parse(valueType, CultureInfo.InvariantCulture);
       }
 
       case "CUSTOMDATETIME":
       {
         var valueType = value.ToString();
         var x = new Regex(@".[+-][0-9]{4}");
-        if (x.IsMatch(valueType))
+        if (!x.IsMatch(valueType))
         {
-          var pos = valueType.IndexOf("Z", StringComparison.OrdinalIgnoreCase);
-          var datetime = valueType.Substring(0, pos);
-          return datetime;
+          return null;
         }
 
-        return null;
+        var pos = valueType.IndexOf("Z", StringComparison.OrdinalIgnoreCase);
+        var datetime = valueType.Substring(0, pos);
+        return datetime;
       }
 
       case "BOOL":
@@ -128,8 +118,7 @@ internal class TypeConverterHandler : ITransformationHandler
 
       case "DECIMAL?":
       {
-        decimal decimalValue;
-        if (decimal.TryParse(value.ToString(), out decimalValue))
+        if (decimal.TryParse(value.ToString(), out var decimalValue))
         {
           return decimalValue;
         }
@@ -140,13 +129,12 @@ internal class TypeConverterHandler : ITransformationHandler
       case "INT?":
       {
         var dval = Convert.ToDecimal(value.ToString());
-        return Decimal.ToInt32(dval);
+        return decimal.ToInt32(dval);
       }
 
       case "GUID?":
       {
-        Guid guid;
-        if (Guid.TryParse(value.ToString(), out guid))
+        if (Guid.TryParse(value.ToString(), out var guid))
         {
           return guid;
         }
@@ -156,8 +144,7 @@ internal class TypeConverterHandler : ITransformationHandler
 
       case "DATETIME?":
       {
-        DateTime datetime;
-        if (DateTime.TryParse(value.ToString(), out datetime))
+        if (DateTime.TryParse(value.ToString(), out var datetime))
         {
           return datetime;
         }
@@ -167,74 +154,57 @@ internal class TypeConverterHandler : ITransformationHandler
 
       case "UTCDATETIME":
       {
-        DateTime dateTime;
-        if (DateTime.TryParse(value.ToString(), out dateTime))
+        if (!DateTime.TryParse(value.ToString(), out var dateTime))
         {
-          var utcDateTime = dateTime.ToString("s");
-          var zone = TimeZoneInfo.FindSystemTimeZoneById("UTC");
-          utcDateTime = utcDateTime + "+" + zone.BaseUtcOffset.ToString();
-          return utcDateTime;
+          return null;
         }
 
-        return null;
+        var utcDateTime = dateTime.ToString("s");
+        var zone = TimeZoneInfo.FindSystemTimeZoneById("UTC");
+        utcDateTime = utcDateTime + "+" + zone.BaseUtcOffset.ToString();
+        return utcDateTime;
       }
 
       case "STRINGTOUTCDATEFORMAT":
       {
         //This block converts the given date into UTC formatted string, it will not change the TimeZone offset
         //compared to previous block.
-        DateTime dateTime;
-        if (DateTime.TryParse(value.ToString(), out dateTime))
+        if (!DateTime.TryParse(value.ToString(), out var dateTime))
         {
-          var timeInUTCFormat = dateTime.ToString("yyyy-MM-ddTHH:mm:sszzz");
-          return timeInUTCFormat;
+          return null;
         }
 
-        return null;
+        var timeInUtcFormat = dateTime.ToString("yyyy-MM-ddTHH:mm:sszzz");
+        return timeInUtcFormat;
       }
 
       case "REMOVEDATETIMEOFFSET":
       {
         var valueType = value.ToString();
-        if (valueType.Contains("Z"))
+        if (!valueType.Contains("Z"))
         {
-          var pos = valueType.IndexOf("Z", StringComparison.OrdinalIgnoreCase);
-          var datetime = valueType.Substring(0, pos + 1); //including 'Z' in the output
-          return datetime;
+          return valueType;
         }
 
-        return valueType;
+        var pos = valueType.IndexOf("Z", StringComparison.OrdinalIgnoreCase);
+        var datetime = valueType.Substring(0, pos + 1); //including 'Z' in the output
+        return datetime;
       }
 
       case "FORMATTEDDATETIME":
       {
-        DateTime dateTime;
-        if (DateTime.TryParse(value.ToString(), out dateTime))
+        if (!DateTime.TryParse(value.ToString(), out var dateTime))
         {
-          string timeInUTCFormat;
-          if (!string.IsNullOrWhiteSpace(format))
-          {
-            timeInUTCFormat = dateTime.ToString(format);
-          }
-          else
-          {
-            timeInUTCFormat = dateTime.ToString(null, CultureInfo.InvariantCulture);
-          }
-
-          return timeInUTCFormat;
+          return null;
         }
 
-        return null;
+        var timeInUtcFormat = !string.IsNullOrWhiteSpace(format) ? dateTime.ToString(format) : dateTime.ToString(null, CultureInfo.InvariantCulture);
+        return timeInUtcFormat;
       }
 
       case "STRING":
       {
-        if (value.GetType().Equals("JValue"))
-        {
-          return ((JValue)value).Value<string>();
-        }
-
-        return value.ToString();
+        return value.GetType().Equals("JValue") ? ((JValue)value).Value<string>() : value.ToString();
       }
     }
 

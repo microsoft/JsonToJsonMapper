@@ -19,7 +19,7 @@ internal class RoslynScriptHandler : ITransformationHandler
   /// <param name="transform"></param>
   /// <param name="input"></param>
   /// <returns></returns>
-  public dynamic Run(JObject transform, JObject input)
+  public dynamic? Run(JObject transform, JObject input)
   {
     var inputParam = new StringBuilder();
     var parameters = transform["Params"].ToObject<List<string>>();

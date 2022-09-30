@@ -4,5 +4,5 @@ using Newtonsoft.Json.Linq;
 
 public interface ITransformationHandler
 {
-  dynamic Run(JObject config, JObject input);
+  dynamic? Run(JObject config, JObject input);
 }

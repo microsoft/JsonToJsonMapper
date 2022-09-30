@@ -93,8 +93,7 @@ public class AutoMapper
       {
         if (rule.ComplexType == null)
         {
-          string valueType;
-          var value = GetValue(jsonObject, rule.SourceColumn, rule.TransformValue, out valueType);
+          var value = GetValue(jsonObject, rule.SourceColumn, rule.TransformValue, out var valueType);
 
           if (value != null)
           {
@@ -177,10 +176,9 @@ public class AutoMapper
         if (rule.ComplexType == null)
         {
           // Handle Jvalue
-          string valueType;
           var destinationValue = rule.DestinationColumn.StartsWith("$") ? jsonObject.SelectToken(rule.DestinationColumn).ToString() : rule.DestinationColumn;
 
-          var value = GetValue(jsonObject, rule.SourceColumn, rule.TransformValue, out valueType);
+          var value = GetValue(jsonObject, rule.SourceColumn, rule.TransformValue, out var valueType);
           if (rule.DataType == null)
           {
             rule.DataType = valueType;
@@ -266,9 +264,9 @@ public class AutoMapper
     return array;
   }
 
-  private string GetValue(JObject jsonObject, string key, Transform transform, out string valueType)
+  private string? GetValue(JObject jsonObject, string key, Transform transform, out string valueType)
   {
-    string value = null;
+    string? value = null;
     valueType = "string";
 
     if (transform != null && transform.Type != null && transform.Type.Equals("SCRIPT", StringComparison.OrdinalIgnoreCase))
