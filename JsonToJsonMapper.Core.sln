@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonToJsonMapper.Core.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonToJsonMapper.ScriptTester.Core", "src\JsonToJsonMapper.ScriptTester.Core\JsonToJsonMapper.ScriptTester.Core.csproj", "{9DBE0B3B-9921-4EA2-8503-712F657F5489}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{8CB9F6BE-2129-4F7E-8F93-A3E1F134DED4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonToJsonMapper.Core.Samples", "samples\JsonToJsonMapper.samples\JsonToJsonMapper.Core.Samples.csproj", "{FB183C07-A7C5-4FD0-9DF2-CDF876BAF19B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +38,15 @@ Global
 		{9DBE0B3B-9921-4EA2-8503-712F657F5489}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DBE0B3B-9921-4EA2-8503-712F657F5489}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DBE0B3B-9921-4EA2-8503-712F657F5489}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB183C07-A7C5-4FD0-9DF2-CDF876BAF19B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB183C07-A7C5-4FD0-9DF2-CDF876BAF19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB183C07-A7C5-4FD0-9DF2-CDF876BAF19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB183C07-A7C5-4FD0-9DF2-CDF876BAF19B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4620C9BA-6A5E-4B38-A3E3-6394AA94D06C} = {9181289D-E1A0-4294-86C3-000A3DB40611}
 		{D00EFB18-9D20-4222-A9C0-33A6C1CD7FE2} = {5925B6A8-817B-4767-AFF8-12A593C7A3AB}
 		{9DBE0B3B-9921-4EA2-8503-712F657F5489} = {9181289D-E1A0-4294-86C3-000A3DB40611}
+		{FB183C07-A7C5-4FD0-9DF2-CDF876BAF19B} = {8CB9F6BE-2129-4F7E-8F93-A3E1F134DED4}
 	EndGlobalSection
 EndGlobal
