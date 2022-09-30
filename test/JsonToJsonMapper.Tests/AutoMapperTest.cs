@@ -202,10 +202,10 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = @"{""Content"":[{""id"":2,""leadId"":6,""SourceType"":""Webpagevisit"",""SourceInfo"":""http://search.yahoo.com/search?p=train+cappuccino+army""},{""id"":3,""leadId"":9,""ClientIPAddress"":""203.141.7.100"",""UserAgent"":""Mozilla/5.0(Windows;U;WindowsNT5.1;en-US;rv:1.8.1.14)Gecko/20080404Firefox/2.0.0.14"",""WebpageID"":4,""WebpageURL"":""/anti-phishing.html""}]}";
-    var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
 
     //Assert
+    const string expectedResponse = @"{""Content"":[{""id"":2,""leadId"":6,""SourceType"":""Webpagevisit"",""SourceInfo"":""http://search.yahoo.com/search?p=train+cappuccino+army""},{""id"":3,""leadId"":9,""ClientIPAddress"":""203.141.7.100"",""UserAgent"":""Mozilla/5.0(Windows;U;WindowsNT5.1;en-US;rv:1.8.1.14)Gecko/20080404Firefox/2.0.0.14"",""WebpageID"":4,""WebpageURL"":""/anti-phishing.html""}]}";
+    var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
     Assert.AreEqual(value, expectedResponse);
   }
 
@@ -221,10 +221,10 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = @"{""Content"":[{""id"":2,""leadId"":6,""AttributeSourceType"":""Webpagevisit"",""AttributeSourceInfo"":""http://search.yahoo.com/search?p=train+cappuccino+army""},{""id"":3,""leadId"":9,""AttributeClientIPAddress"":""203.141.7.100"",""AttributeUserAgent"":""Mozilla/5.0(Windows;U;WindowsNT5.1;en-US;rv:1.8.1.14)Gecko/20080404Firefox/2.0.0.14"",""AttributeWebpageID"":4,""AttributeWebpageURL"":""/anti-phishing.html""}]}";
     var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
 
     //Assert
+    const string expectedResponse = @"{""Content"":[{""id"":2,""leadId"":6,""AttributeSourceType"":""Webpagevisit"",""AttributeSourceInfo"":""http://search.yahoo.com/search?p=train+cappuccino+army""},{""id"":3,""leadId"":9,""AttributeClientIPAddress"":""203.141.7.100"",""AttributeUserAgent"":""Mozilla/5.0(Windows;U;WindowsNT5.1;en-US;rv:1.8.1.14)Gecko/20080404Firefox/2.0.0.14"",""AttributeWebpageID"":4,""AttributeWebpageURL"":""/anti-phishing.html""}]}";
     Assert.IsTrue(value.Contains("AttributeWebpageURL"));
     Assert.AreEqual(value, expectedResponse);
   }
@@ -241,10 +241,10 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = @"{""EventList"":[{""title"":""Windows 10 for device management"",""accountCode"":""C-and-E"",""Id"":""APAC-1PWBNR3-0331-16-HQ"",""Status"":""Live"",""timezone"":""(GMT+05:00) Islamabad, Karachi, Tashkent"",""source"":""Certain"",""EventCategory"":""Onsite Event"",""StartDate"":""2016-03-31T08:00:00Z"",""EndDate"":""2016-03-31T16:00:00Z"",""locationCode"":""Webinar"",""Description"":""A"",""PrimaryLanguage"":[""""],""PrimaryTargetAudience"":[""""],""Product"":[""""],""Category"":""TBD"",""URL"":""www.microsoft.com""}],""RequestId"":""4bfaac9c-1e0d-4620-b9e6-66095376e99a""}";
-    var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
 
     //Assert
+    const string expectedResponse = @"{""EventList"":[{""title"":""Windows 10 for device management"",""accountCode"":""C-and-E"",""Id"":""APAC-1PWBNR3-0331-16-HQ"",""Status"":""Live"",""timezone"":""(GMT+05:00) Islamabad, Karachi, Tashkent"",""source"":""Certain"",""EventCategory"":""Onsite Event"",""StartDate"":""2016-03-31T08:00:00Z"",""EndDate"":""2016-03-31T16:00:00Z"",""locationCode"":""Webinar"",""Description"":""A"",""PrimaryLanguage"":[""""],""PrimaryTargetAudience"":[""""],""Product"":[""""],""Category"":""TBD"",""URL"":""www.microsoft.com""}],""RequestId"":""4bfaac9c-1e0d-4620-b9e6-66095376e99a""}";
+    var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
     Assert.AreEqual(value, expectedResponse.Replace(" ", string.Empty));
   }
 
@@ -260,10 +260,10 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = @"{""Answers"":[{""eventId"":""100"",""questionId"":""Q1"",""value"":""1http://na-ab11.marketo.com/rs/113-EDC-810/images/MSC Test Banner.jpg""},{""eventId"":""100"",""questionId"":""Q1"",""value"":""2http://na-ab11.marketo.com/rs/113-EDC-810/images/MSC Test Banner.jpg""},{""eventId"":""100"",""questionId"":""Q2"",""value"":""3Consumers,Partners""},{""eventId"":""200"",""questionId"":""Q3""},{""eventId"":""200"",""questionId"":""Q4"",""value"":""4Klo""}]}";
-    var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
 
     //Assert
+    const string expectedResponse = @"{""Answers"":[{""eventId"":""100"",""questionId"":""Q1"",""value"":""1http://na-ab11.marketo.com/rs/113-EDC-810/images/MSC Test Banner.jpg""},{""eventId"":""100"",""questionId"":""Q1"",""value"":""2http://na-ab11.marketo.com/rs/113-EDC-810/images/MSC Test Banner.jpg""},{""eventId"":""100"",""questionId"":""Q2"",""value"":""3Consumers,Partners""},{""eventId"":""200"",""questionId"":""Q3""},{""eventId"":""200"",""questionId"":""Q4"",""value"":""4Klo""}]}";
+    var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
     Assert.AreEqual(value, expectedResponse.Replace(" ", string.Empty));
   }
 
