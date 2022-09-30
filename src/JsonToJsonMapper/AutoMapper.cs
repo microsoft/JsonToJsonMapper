@@ -5,22 +5,25 @@ using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-public class AutoMapper : IDisposable
+public class AutoMapper
 {
-  public MappingRule Mapping { get; set; }
-  private JsonSerializerSettings JsonConvertSettings { get; set; }
-  private readonly TransformationFactory handler;
+  private readonly MappingRule _mapping;
+
+  private readonly JsonSerializerSettings _jsonConvertSettings = new()
+  {
+    DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind,
+    DateParseHandling = DateParseHandling.None
+  };
+
+  private readonly TransformationFactory _handler;
 
   public AutoMapper(string autoMapperConfig)
   {
-    JsonConvertSettings = new JsonSerializerSettings();
-    JsonConvertSettings.DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
-    JsonConvertSettings.DateParseHandling = DateParseHandling.None;
-    handler = new TransformationFactory();
+    _handler = new TransformationFactory();
     var config = JsonConvert.DeserializeObject<AutoMapperConfig>(autoMapperConfig);
-    Mapping = config.MappingRuleConfig;
+    _mapping = config.MappingRuleConfig;
 
-    if (Mapping == null || !Mapping.TruthTable.Any())
+    if (_mapping == null || !_mapping.TruthTable.Any())
     {
       throw new Exception("Invalid mapping json");
     }
@@ -32,25 +35,18 @@ public class AutoMapper : IDisposable
     {
       foreach (var script in config.Scripts)
       {
-        if (script.Reference != null)
-        {
-          // With assembly import
-          var options = ScriptOptions.Default.AddReferences(script.Reference.Assembly).WithImports(script.Reference.NameSpace);
-          scripts.Add(script.Name, CSharpScript.Create<string>(script.Code, options, globalsType: typeof(ScriptHost)));
-        }
-        else
-        {
-          scripts.Add(script.Name, CSharpScript.Create<string>(script.Code, globalsType: typeof(ScriptHost)));
-        }
+        // With assembly import
+        var options = script.Reference != null ? ScriptOptions.Default.AddReferences(script.Reference.Assembly).WithImports(script.Reference.NameSpace) : null;
+        scripts.Add(script.Name, CSharpScript.Create<string>(script.Code, options, globalsType: typeof(ScriptHost)));
       }
     }
 
     // Load all the handlers
-    handler.AddHandlers(new TransposeHandler());
-    handler.AddHandlers(new TypeConverterHandler());
-    handler.AddHandlers(new ValueMappingHandler());
-    handler.AddHandlers(new RoslynScriptHandler(scripts));
-    handler.AddHandlers(new FunctionHandler());
+    _handler.AddHandlers(new TransposeHandler());
+    _handler.AddHandlers(new TypeConverterHandler());
+    _handler.AddHandlers(new ValueMappingHandler());
+    _handler.AddHandlers(new RoslynScriptHandler(scripts));
+    _handler.AddHandlers(new FunctionHandler());
   }
 
   /// <summary>
@@ -60,22 +56,22 @@ public class AutoMapper : IDisposable
   /// <returns></returns>
   public object Transform(string inputJson)
   {
-    if (Mapping.DestinationType == null)
+    if (_mapping.DestinationType == null)
     {
       throw new Exception("Invalid mapping json");
     }
 
-    return Execute((JObject)JsonConvert.DeserializeObject(inputJson, JsonConvertSettings), Mapping);
+    return Execute((JObject)JsonConvert.DeserializeObject(inputJson, _jsonConvertSettings), _mapping);
   }
 
   public object Transform(JObject jObj)
   {
-    if (Mapping.DestinationType == null)
+    if (_mapping.DestinationType == null)
     {
       throw new Exception("Invalid mapping json");
     }
 
-    return Execute(jObj, Mapping);
+    return Execute(jObj, _mapping);
   }
 
   /// <summary>
@@ -107,7 +103,7 @@ public class AutoMapper : IDisposable
               rule.DataType = valueType;
             }
 
-            var finalValue = handler.GetHandler<TypeConverterHandler>()
+            var finalValue = _handler.GetHandler<TypeConverterHandler>()
               .Run(JObject.FromObject(rule), JObject.FromObject(new { value = value }));
             propertyInfo.SetValue(entity, finalValue, null);
           }
@@ -134,14 +130,14 @@ public class AutoMapper : IDisposable
   /// <returns></returns>
   public string TransformIntoJson(string inputJson, bool ignoreNullValue)
   {
-    Mapping.IgnoreNullValue = ignoreNullValue;
-    return JsonConvert.SerializeObject(ExecuteToJson((JObject)JsonConvert.DeserializeObject(inputJson, JsonConvertSettings), Mapping));
+    _mapping.IgnoreNullValue = ignoreNullValue;
+    return JsonConvert.SerializeObject(ExecuteToJson((JObject)JsonConvert.DeserializeObject(inputJson, _jsonConvertSettings), _mapping));
   }
 
   public JObject TransformIntoJson(JObject jObj, bool ignoreNullValue)
   {
-    Mapping.IgnoreNullValue = ignoreNullValue;
-    return ExecuteToJson(jObj, Mapping);
+    _mapping.IgnoreNullValue = ignoreNullValue;
+    return ExecuteToJson(jObj, _mapping);
   }
 
   /// <summary>
@@ -151,12 +147,12 @@ public class AutoMapper : IDisposable
   /// <returns></returns>
   public string TransformIntoJson(string inputJson)
   {
-    return JsonConvert.SerializeObject(ExecuteToJson((JObject)JsonConvert.DeserializeObject(inputJson, JsonConvertSettings), Mapping));
+    return JsonConvert.SerializeObject(ExecuteToJson((JObject)JsonConvert.DeserializeObject(inputJson, _jsonConvertSettings), _mapping));
   }
 
   public string TransformIntoJson(JObject jObj)
   {
-    return JsonConvert.SerializeObject(ExecuteToJson(jObj, Mapping));
+    return JsonConvert.SerializeObject(ExecuteToJson(jObj, _mapping));
   }
 
   protected JObject ExecuteToJson(JObject jsonObject, MappingRule mapping)
@@ -167,7 +163,7 @@ public class AutoMapper : IDisposable
       // handle transpose
       if (rule.TransformValue != null && rule.TransformValue.Type != null && string.Equals(rule.TransformValue.Type, "promoteArrayToProperty", StringComparison.OrdinalIgnoreCase))
       {
-        Dictionary<string, object> transposeResponse = handler.GetHandler<TransposeHandler>()
+        Dictionary<string, object> transposeResponse = _handler.GetHandler<TransposeHandler>()
           .Run(JObject.FromObject(rule), jsonObject);
         if (transposeResponse != null)
         {
@@ -188,7 +184,7 @@ public class AutoMapper : IDisposable
             rule.DataType = valueType;
           }
 
-          var finalValue = handler.GetHandler<TypeConverterHandler>()
+          var finalValue = _handler.GetHandler<TypeConverterHandler>()
             .Run(JObject.FromObject(rule), JObject.FromObject(new { value = value }));
           if (finalValue != null || finalValue.Type != JTokenType.Null || (finalValue == null && !mapping.IgnoreNullValue) || (finalValue.Type == JTokenType.Null && !mapping.IgnoreNullValue))
           {
@@ -211,7 +207,7 @@ public class AutoMapper : IDisposable
           {
             if (!string.IsNullOrWhiteSpace(rule.DataType))
             {
-              jsonString.Json.Add(rule.DestinationColumn, handler.GetHandler<TypeConverterHandler>()
+              jsonString.Json.Add(rule.DestinationColumn, _handler.GetHandler<TypeConverterHandler>()
                 .Run(JObject.FromObject(rule), JObject.FromObject(new { value = result })));
             }
             else
@@ -241,7 +237,7 @@ public class AutoMapper : IDisposable
         {
           foreach (var a in itemJArray)
           {
-            var jTok = (JToken)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(ExecuteToJson((JObject)a, mapping)), JsonConvertSettings);
+            var jTok = (JToken)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(ExecuteToJson((JObject)a, mapping)), _jsonConvertSettings);
             array.Add(jTok);
           }
         }
@@ -253,7 +249,7 @@ public class AutoMapper : IDisposable
       }
       else
       {
-        array.Add((JToken)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(ExecuteToJson((JObject)item, mapping)), JsonConvertSettings));
+        array.Add((JToken)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(ExecuteToJson((JObject)item, mapping)), _jsonConvertSettings));
       }
     }
 
@@ -272,12 +268,12 @@ public class AutoMapper : IDisposable
 
     if (transform != null && transform.Type != null && transform.Type.Equals("SCRIPT", StringComparison.OrdinalIgnoreCase))
     {
-      return handler.GetHandler<RoslynScriptHandler>().Run(JObject.FromObject(transform), jsonObject);
+      return _handler.GetHandler<RoslynScriptHandler>().Run(JObject.FromObject(transform), jsonObject);
     }
 
     if (transform != null && transform.Type != null && transform.Type.Equals("FUNCTION", StringComparison.OrdinalIgnoreCase))
     {
-      return handler.GetHandler<FunctionHandler>().Run(JObject.FromObject(transform), jsonObject);
+      return _handler.GetHandler<FunctionHandler>().Run(JObject.FromObject(transform), jsonObject);
     }
 
     if (!string.IsNullOrEmpty(key) && key.StartsWith("$"))
@@ -368,22 +364,10 @@ public class AutoMapper : IDisposable
 
     if (transform != null)
     {
-      value = handler.GetHandler<ValueMappingHandler>()
+      value = _handler.GetHandler<ValueMappingHandler>()
         .Run(JObject.FromObject(transform), JObject.FromObject(new { value = value }));
     }
 
     return value;
-  }
-
-  public void Dispose()
-  {
-    Dispose(true);
-    GC.SuppressFinalize(this);
-  }
-
-  // Protected implementation of Dispose pattern. 
-  protected virtual void Dispose(bool disposing)
-  {
-    Mapping = null;
   }
 }
