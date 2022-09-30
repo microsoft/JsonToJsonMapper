@@ -12,4 +12,25 @@
     <ProjectReference Include="..\..\src\JsonToJsonMapper\JsonToJsonMapper.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Jsons\ToUpper\Transformation_Input.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Jsons\RangeMapping\RangeMappingRules.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Jsons\OneToOneMapping\OneToOneMappingRules.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Jsons\ToUpper\Upper_Mapping.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Jsons\RangeMapping\Transformation_Input.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Jsons\OneToOneMapping\Transformation_Input.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
