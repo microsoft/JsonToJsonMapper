@@ -278,6 +278,7 @@ public class AutoMapperTest
     ITransformationHandler handler = new ValueMappingHandler();
     var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
 
+    //Assert
     Assert.IsTrue(response == "Certain");
   }
 
@@ -292,6 +293,7 @@ public class AutoMapperTest
     ITransformationHandler handler = new ValueMappingHandler();
     var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
 
+    //Assert
     Assert.IsTrue(DateTime.TryParse(response, out DateTime _));
   }
 
@@ -306,6 +308,7 @@ public class AutoMapperTest
     ITransformationHandler handler = new ValueMappingHandler();
     var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
 
+    //Assert
     Assert.IsTrue(Guid.TryParse(response, out Guid _));
   }
 
@@ -320,6 +323,7 @@ public class AutoMapperTest
     ITransformationHandler handler = new ValueMappingHandler();
     var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
 
+    //Assert
     Assert.IsTrue(response == "2");
   }
 
@@ -334,9 +338,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"EventList\":[{\"title\":\"https://info.microsoft.com,Hello world!\"},{\"title\":\"First answer,Last answer,Hello world!\"},{\"title\":\",Hello world!\"}]}";
 
     //Assert
+    const string expectedResponse = "{\"EventList\":[{\"title\":\"https://info.microsoft.com,Hello world!\"},{\"title\":\"First answer,Last answer,Hello world!\"},{\"title\":\",Hello world!\"}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -351,9 +355,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"EventList\":[{\"title\":\"https://info.microsoft.comHello world!\"},{\"title\":\"First answerLast answerHello world!\"},{\"title\":\"Hello world!\"}]}";
 
     //Assert
+    const string expectedResponse = "{\"EventList\":[{\"title\":\"https://info.microsoft.comHello world!\"},{\"title\":\"First answerLast answerHello world!\"},{\"title\":\"Hello world!\"}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -368,9 +372,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"EventList\":[{\"title\":\"Hello world!\"},{\"title\":\"Hello world!\"},{\"title\":\"Hello world!\"}]}";
 
     //Assert
+    const string expectedResponse = "{\"EventList\":[{\"title\":\"Hello world!\"},{\"title\":\"Hello world!\"},{\"title\":\"Hello world!\"}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -385,9 +389,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{}";
 
     //Assert
+    const string expectedResponse = "{}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -402,9 +406,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"EventList\":[]}";
 
     //Assert
+    const string expectedResponse = "{\"EventList\":[]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -419,9 +423,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"EventList\":[]}";
 
     //Assert
+    const string expectedResponse = "{\"EventList\":[]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -436,9 +440,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"__meta__Entity\":\"GenericPresales\",\"EncryptedFields\":\" \"}";
 
     //Assert
+    const string expectedResponse = "{\"__meta__Entity\":\"GenericPresales\",\"EncryptedFields\":\" \"}";
     Assert.AreEqual(expectedResponse, response);
   }
 
@@ -453,9 +457,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"EventList\":[{\"title\":false},{\"title\":true},{\"title\":true}]}";
 
     //Assert
+    const string expectedResponse = "{\"EventList\":[{\"title\":false},{\"title\":true},{\"title\":true}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -470,9 +474,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"NA\\\"\\r\\n}\"}";
 
     //Assert
+    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"NA\\\"\\r\\n}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -487,9 +491,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"RV\\\"\\r\\n}\"}";
 
     //Assert
+    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"RV\\\"\\r\\n}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -504,9 +508,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
 
     //Assert
+    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -521,9 +525,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
 
     //Assert
+    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -538,9 +542,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
 
     //Assert
+    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -555,9 +559,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"\\\"\\r\\n}\"}";
 
     //Assert
+    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"\\\"\\r\\n}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -572,9 +576,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"address\":\"def\"}";
 
     //Assert
+    const string expectedResponse = "{\"address\":\"def\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -589,9 +593,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"address\":\"abc\"}";
 
     //Assert
+    const string expectedResponse = "{\"address\":\"abc\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -606,9 +610,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"address\":\"def\"}";
 
     //Assert
+    const string expectedResponse = "{\"address\":\"def\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -623,9 +627,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"EventList\":[{\"title\":false},{\"title\":true},{\"title\":true}]}";
 
     //Assert
+    const string expectedResponse = "{\"EventList\":[{\"title\":false},{\"title\":true},{\"title\":true}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -641,9 +645,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(JObject.Parse(inputJson), true);
-    const string expectedResponse = "{ \"EventId\": \"-1\", \"SchemaName\": \"JournalEvents.Certain.EventQuestionAnswersDetail\", \"ContentObject\": [ { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Hero Banner Image\", \"questionLabel\": \"Hero Banner Image\", \"questionCode\": \"Hero Banner Image\", \"questionType\": \"Image\", \"answerLabel\": \"answerLabelXYZ\", \"answerCode\": \"answerCodeXYZ\", \"answerName\": \"answerNameXYZ\" }, { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Program-HeaderText\", \"questionLabel\": \"Program-HeaderText\", \"questionCode\": \"Program-HeaderText\", \"questionType\": \"Text\", \"answerLabel\": null, \"answerCode\": null, \"answerName\": null }, { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Program-Description\", \"questionLabel\": \"Program-Description (Registration Form - Paragraph 1)\", \"questionCode\": \"Program-Description\", \"questionType\": \"Textarea\", \"answerLabel\": null, \"answerCode\": null, \"answerName\": null } ] }";
 
     //Assert
+    const string expectedResponse = "{ \"EventId\": \"-1\", \"SchemaName\": \"JournalEvents.Certain.EventQuestionAnswersDetail\", \"ContentObject\": [ { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Hero Banner Image\", \"questionLabel\": \"Hero Banner Image\", \"questionCode\": \"Hero Banner Image\", \"questionType\": \"Image\", \"answerLabel\": \"answerLabelXYZ\", \"answerCode\": \"answerCodeXYZ\", \"answerName\": \"answerNameXYZ\" }, { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Program-HeaderText\", \"questionLabel\": \"Program-HeaderText\", \"questionCode\": \"Program-HeaderText\", \"questionType\": \"Text\", \"answerLabel\": null, \"answerCode\": null, \"answerName\": null }, { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Program-Description\", \"questionLabel\": \"Program-Description (Registration Form - Paragraph 1)\", \"questionCode\": \"Program-Description\", \"questionType\": \"Textarea\", \"answerLabel\": null, \"answerCode\": null, \"answerName\": null } ] }";
     Assert.IsTrue(JToken.DeepEquals(response, JObject.Parse(expectedResponse)));
   }
 
@@ -658,9 +662,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Key\":[{\"Key\":\"12121212333\"}]}";
 
     //Assert
+    const string expectedResponse = "{\"Key\":[{\"Key\":\"12121212333\"}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -675,9 +679,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Data\":[{\"Key\":\"12121212333\",\"Message\":\"AKJKKAJDKAKJKKKDKSKAK\"}]}";
 
     //Assert
+    const string expectedResponse = "{\"Data\":[{\"Key\":\"12121212333\",\"Message\":\"AKJKKAJDKAKJKKKDKSKAK\"}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -692,9 +696,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Data\":[{\"EmailAddress\":\"WINDOWS 10\"}]}";
 
     //Assert
+    const string expectedResponse = "{\"Data\":[{\"EmailAddress\":\"WINDOWS 10\"}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -718,9 +722,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Data\":[{\"EmailAddress\":\"WINDOWS 10\",\"FirstName\":\"AP - Azure\",\"LastName\":\"C - AND - E\"}]}";
 
     //Assert
+    const string expectedResponse = "{\"Data\":[{\"EmailAddress\":\"WINDOWS 10\",\"FirstName\":\"AP - Azure\",\"LastName\":\"C - AND - E\"}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -735,9 +739,9 @@ public class AutoMapperTest
 
     //Act
     var response = mapper.TransformIntoJson(inputJson, true);
-    const string expectedResponse = "{\"Data\":[{\"EmailAddress\":\"windows 10\"}]}";
 
     //Assert
+    const string expectedResponse = "{\"Data\":[{\"EmailAddress\":\"windows 10\"}]}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -755,6 +759,7 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mappingJson);
     var lead = (LeadRecord)mapper.Transform(inputJson);
 
+    //Assert
     Assert.IsTrue(lead.LeadScore == 100);
   }
 
@@ -771,8 +776,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(inputJson);
-    const string expectedOutput = "{\"ProgramName\":\"test4\",\"Folder\":{\"id\":\"49\",\"type\":\"Folder\"},\"ProgramDescription\":\"xcvxbv\",\"ProgramType\":\"Default\",\"ProgramChannel\":\"Email Blast\",\"Costs\":[{\"startDate\":\"2015-01-01\",\"cost\":\"8360\"}]}";
 
+    //Assert
+    const string expectedOutput = "{\"ProgramName\":\"test4\",\"Folder\":{\"id\":\"49\",\"type\":\"Folder\"},\"ProgramDescription\":\"xcvxbv\",\"ProgramType\":\"Default\",\"ProgramChannel\":\"Email Blast\",\"Costs\":[{\"startDate\":\"2015-01-01\",\"cost\":\"8360\"}]}";
     Assert.AreEqual(output, expectedOutput);
   }
 
@@ -790,6 +796,7 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
 
+    //Assert
     Assert.AreEqual(output["ContentObject"]![0]!["ProgramDayDate"]!.ToString(), "2015-11-30T00:00:00");
     Assert.AreEqual(output["ContentObject"]![0]!["ShortFormattedDate"]!.ToString(), "11/30/2015");
   }
@@ -807,8 +814,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"batchId\": \"d7620d3b-188a-49a0-b540-29de82b6ae1c\", \"messageCorrelationId\": \"6a87a56f-618c-4d0b-ac96-09adad1f99d5\", \"responseId\": \"bcf0f3d0-7053-4924-b773-11776daf7692\", \"success\": false, \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"data\": { \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"success\": false, \"errors\": [ { \"message\": \"Validation Failed.\", \"type\": \"Validation Error\", \"validationErrors\": [ \"PropertyRequired for action at #/action\" ] } ] } } ";
 
+    //Assert
+    const string expectedOutput = "{ \"batchId\": \"d7620d3b-188a-49a0-b540-29de82b6ae1c\", \"messageCorrelationId\": \"6a87a56f-618c-4d0b-ac96-09adad1f99d5\", \"responseId\": \"bcf0f3d0-7053-4924-b773-11776daf7692\", \"success\": false, \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"data\": { \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"success\": false, \"errors\": [ { \"message\": \"Validation Failed.\", \"type\": \"Validation Error\", \"validationErrors\": [ \"PropertyRequired for action at #/action\" ] } ] } } ";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -825,8 +833,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"batchId\": \"d7620d3b-188a-49a0-b540-29de82b6ae1c\", \"messageCorrelationId\": \"6a87a56f-618c-4d0b-ac96-09adad1f99d5\", \"responseId\": \"bcf0f3d0-7053-4924-b773-11776daf7692\", \"success\": false, \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"data\": { \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"success\": false, \"errors\": [ { \"message\": \"Validation Failed.\", \"type\": \"Validation Error\", \"validationErrors\": [ \"\" ] } ] } } ";
 
+    //Assert
+    const string expectedOutput = "{ \"batchId\": \"d7620d3b-188a-49a0-b540-29de82b6ae1c\", \"messageCorrelationId\": \"6a87a56f-618c-4d0b-ac96-09adad1f99d5\", \"responseId\": \"bcf0f3d0-7053-4924-b773-11776daf7692\", \"success\": false, \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"data\": { \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"success\": false, \"errors\": [ { \"message\": \"Validation Failed.\", \"type\": \"Validation Error\", \"validationErrors\": [ \"\" ] } ] } } ";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -843,9 +852,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{\r\n  \"ProgramId\": \"V1|OneGDC|10585\",\r\n  \"TacticName\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"PromotionCode\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"GEPName\": \"Azure Platform\",\r\n  \"TacticStartDate\": \"2015-06-26T15:00:00Z\",\r\n  \"TacticEndDate\": \"2015-06-26T15:55:00Z\",\r\n  \"Source\": \"Marketing\",\r\n  \"Id\": \"55a11e81-7e0a-4628-b489-b9db3ff8acac\",\r\n  \"Origin\": {\r\n    \"DisplayValue\": \"Marketing\",\r\n    \"OptionSetId\": 861980001\r\n  }\r\n}";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{\r\n  \"ProgramId\": \"V1|OneGDC|10585\",\r\n  \"TacticName\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"PromotionCode\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"GEPName\": \"Azure Platform\",\r\n  \"TacticStartDate\": \"2015-06-26T15:00:00Z\",\r\n  \"TacticEndDate\": \"2015-06-26T15:55:00Z\",\r\n  \"Source\": \"Marketing\",\r\n  \"Id\": \"55a11e81-7e0a-4628-b489-b9db3ff8acac\",\r\n  \"Origin\": {\r\n    \"DisplayValue\": \"Marketing\",\r\n    \"OptionSetId\": 861980001\r\n  }\r\n}";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -862,9 +871,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{\r\n  \"ProgramId\": \"V1|OneGDC|10585\",\r\n  \"TacticName\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"PromotionCode\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"GEPName\": \"Azure Platform\",\r\n  \"TacticStartDate\": \"2015-06-26T15:00:00\",\r\n  \"TacticEndDate\": \"2015-06-26T15:55:00\",\r\n  \"Source\": \"Marketing\",\r\n  \"Id\": \"55a11e81-7e0a-4628-b489-b9db3ff8acac\",\r\n  \"Origin\": {\r\n    \"DisplayValue\": \"Marketing\",\r\n    \"OptionSetId\": 861980001\r\n  }\r\n}";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{\r\n  \"ProgramId\": \"V1|OneGDC|10585\",\r\n  \"TacticName\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"PromotionCode\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"GEPName\": \"Azure Platform\",\r\n  \"TacticStartDate\": \"2015-06-26T15:00:00\",\r\n  \"TacticEndDate\": \"2015-06-26T15:55:00\",\r\n  \"Source\": \"Marketing\",\r\n  \"Id\": \"55a11e81-7e0a-4628-b489-b9db3ff8acac\",\r\n  \"Origin\": {\r\n    \"DisplayValue\": \"Marketing\",\r\n    \"OptionSetId\": 861980001\r\n  }\r\n}";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -881,9 +890,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"12345\" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"12345\" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -900,9 +909,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -919,9 +928,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -938,9 +947,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -957,9 +966,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"\" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"\" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -976,9 +985,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\" \" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\" \" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -995,9 +1004,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"\" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"\" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -1014,9 +1023,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -1033,9 +1042,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
-    _ = JObject.Parse(expectedOutput);
 
+    //Assert
+    const string expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
     Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
@@ -1098,8 +1107,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%26%20Gamble%20Company&countryName=Bulgaria&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
 
+    //Assert
+    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%26%20Gamble%20Company&countryName=Bulgaria&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1114,8 +1124,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%24%20Gamble%20Company&countryName=Bulgaria&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
 
+    //Assert
+    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%24%20Gamble%20Company&countryName=Bulgaria&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1130,8 +1141,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%2B%20Gamble%20Company&countryName=Bulgaria%2B&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
 
+    //Assert
+    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%2B%20Gamble%20Company&countryName=Bulgaria%2B&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1146,8 +1158,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
 
+    //Assert
+    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1162,8 +1175,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%25Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
 
+    //Assert
+    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%25Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1178,8 +1192,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
 
+    //Assert
+    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1194,6 +1209,7 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
 
+    //Assert
     Assert.IsTrue(JToken.DeepEquals(output, new JObject()));
   }
 
@@ -1207,8 +1223,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria &state=&city=Sofia&zipCode=1510&DunnsId=\" }";
 
+    //Assert
+    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria &state=&city=Sofia&zipCode=1510&DunnsId=\" }";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1222,8 +1239,9 @@ public class AutoMapperTest
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson)!, true);
-    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
 
+    //Assert
+    const string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 }
