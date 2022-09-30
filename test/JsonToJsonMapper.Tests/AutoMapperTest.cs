@@ -22,7 +22,7 @@ public class AutoMapperTest
     try
     {
       var mapper = new AutoMapper(mappingJson);
-      var lead = mapper.TransformIntoJson(inputJson, true);
+      _ = mapper.TransformIntoJson(inputJson, true);
       Assert.Fail();
     }
     catch (Exception ex)
@@ -46,7 +46,7 @@ public class AutoMapperTest
     {
       //Act
       var mapper = new AutoMapper(mappingJson);
-      var lead = (LeadRecord)mapper.Transform(inputJson);
+      _ = (LeadRecord)mapper.Transform(inputJson);
       Assert.Fail();
     }
     catch (Exception ex)
@@ -68,15 +68,9 @@ public class AutoMapperTest
 
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var lead = (LeadRecord)mapper.Transform(inputJson);
-      Assert.IsNull(lead.Name);
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail(ex.Message);
-    }
+    var lead = (LeadRecord)mapper.Transform(inputJson);
+
+    Assert.IsNull(lead.Name);
   }
 
   [TestMethod, Description("Validate that the property is not set if the value is empty string except if the datatype is string.")]
@@ -91,16 +85,10 @@ public class AutoMapperTest
 
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var lead = (LeadRecord)mapper.Transform(inputJson);
-      Assert.IsTrue(lead.AllowEmail == false);
-      Assert.IsTrue(lead.LeadScore == 101);
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail(ex.Message);
-    }
+    var lead = (LeadRecord)mapper.Transform(inputJson);
+
+    Assert.IsTrue(lead.AllowEmail == false);
+    Assert.IsTrue(lead.LeadScore == 101);
   }
 
   [TestMethod, Description("Validate that the datetime value is not modified due to transformation.")]
@@ -116,17 +104,10 @@ public class AutoMapperTest
 
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var lead = mapper.TransformIntoJson(inputJson, true);
+    var lead = mapper.TransformIntoJson(inputJson, true);
 
-      Assert.IsTrue(lead.Contains("2015-10-29T07:48:27.767-07:00") && lead.Contains("2015-10-29T07:48:27.767-07:00")
-                                                                   && lead.Contains("11/02/2015 15:15:00 -08:00") && lead.Contains("11/02/2015 16:30:00 -08:00") && lead.Contains("8707"));
-    }
-    catch (Exception)
-    {
-      Assert.Fail();
-    }
+    Assert.IsTrue(lead.Contains("2015-10-29T07:48:27.767-07:00") && lead.Contains("2015-10-29T07:48:27.767-07:00")
+                                                                 && lead.Contains("11/02/2015 15:15:00 -08:00") && lead.Contains("11/02/2015 16:30:00 -08:00") && lead.Contains("8707"));
   }
 
   [TestMethod, Description("Validate that the property is set to default value if the value is not passed.")]
@@ -141,15 +122,9 @@ public class AutoMapperTest
 
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var lead = (LeadRecord)mapper.Transform(inputJson);
-      Assert.IsTrue(lead.Name == "NA");
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail(ex.Message);
-    }
+    var lead = (LeadRecord)mapper.Transform(inputJson);
+
+    Assert.IsTrue(lead.Name == "NA");
   }
 
   [TestMethod, Description("Validate that the property is mapped according to input value.")]
@@ -164,15 +139,9 @@ public class AutoMapperTest
 
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var lead = (LeadRecord)mapper.Transform(inputJson);
-      Assert.IsTrue(lead.Name == "true");
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail(ex.Message);
-    }
+    var lead = (LeadRecord)mapper.Transform(inputJson);
+
+    Assert.IsTrue(lead.Name == "true");
   }
 
   [TestMethod, Description("Validate that the property is  set to default value if the value is not passed.")]
@@ -187,15 +156,9 @@ public class AutoMapperTest
 
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var lead = (LeadRecord)mapper.Transform(inputJson);
-      Assert.IsTrue(lead.Name == "NA");
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail(ex.Message);
-    }
+    var lead = (LeadRecord)mapper.Transform(inputJson);
+
+    Assert.IsTrue(lead.Name == "NA");
   }
 
   [TestMethod, Description("Validate that the property is  set to custom value if the value passed is empty.")]
@@ -210,15 +173,9 @@ public class AutoMapperTest
 
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var lead = (LeadRecord)mapper.Transform(inputJson);
-      Assert.IsTrue(lead.Name == "true");
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail(ex.Message);
-    }
+    var lead = (LeadRecord)mapper.Transform(inputJson);
+
+    Assert.IsTrue(lead.Name == "true");
   }
 
   [TestMethod, Description("Complex transformation test - Validate that the value returned is a complex type.")]
@@ -253,6 +210,7 @@ public class AutoMapperTest
     var response = mapper.TransformIntoJson(inputJson, true);
     var expectedResponse = @"{""Content"":[{""id"":2,""leadId"":6,""SourceType"":""Webpagevisit"",""SourceInfo"":""http://search.yahoo.com/search?p=train+cappuccino+army""},{""id"":3,""leadId"":9,""ClientIPAddress"":""203.141.7.100"",""UserAgent"":""Mozilla/5.0(Windows;U;WindowsNT5.1;en-US;rv:1.8.1.14)Gecko/20080404Firefox/2.0.0.14"",""WebpageID"":4,""WebpageURL"":""/anti-phishing.html""}]}";
     var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
+
     //Assert
     Assert.AreEqual(value, expectedResponse);
   }
@@ -271,6 +229,7 @@ public class AutoMapperTest
     var response = mapper.TransformIntoJson(inputJson, true);
     var expectedResponse = @"{""Content"":[{""id"":2,""leadId"":6,""AttributeSourceType"":""Webpagevisit"",""AttributeSourceInfo"":""http://search.yahoo.com/search?p=train+cappuccino+army""},{""id"":3,""leadId"":9,""AttributeClientIPAddress"":""203.141.7.100"",""AttributeUserAgent"":""Mozilla/5.0(Windows;U;WindowsNT5.1;en-US;rv:1.8.1.14)Gecko/20080404Firefox/2.0.0.14"",""AttributeWebpageID"":4,""AttributeWebpageURL"":""/anti-phishing.html""}]}";
     var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
+
     //Assert
     Assert.IsTrue(value.Contains("AttributeWebpageURL"));
     Assert.AreEqual(value, expectedResponse);
@@ -291,6 +250,7 @@ public class AutoMapperTest
     var response = mapper.TransformIntoJson(inputJson, true);
     var expectedResponse = @"{""EventList"":[{""title"":""Windows 10 for device management"",""accountCode"":""C-and-E"",""Id"":""APAC-1PWBNR3-0331-16-HQ"",""Status"":""Live"",""timezone"":""(GMT+05:00) Islamabad, Karachi, Tashkent"",""source"":""Certain"",""EventCategory"":""Onsite Event"",""StartDate"":""2016-03-31T08:00:00Z"",""EndDate"":""2016-03-31T16:00:00Z"",""locationCode"":""Webinar"",""Description"":""A"",""PrimaryLanguage"":[""""],""PrimaryTargetAudience"":[""""],""Product"":[""""],""Category"":""TBD"",""URL"":""www.microsoft.com""}],""RequestId"":""4bfaac9c-1e0d-4620-b9e6-66095376e99a""}";
     var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
+
     //Assert
     Assert.AreEqual(value, expectedResponse.Replace(" ", string.Empty));
   }
@@ -309,6 +269,7 @@ public class AutoMapperTest
     var response = mapper.TransformIntoJson(inputJson, true);
     var expectedResponse = @"{""Answers"":[{""eventId"":""100"",""questionId"":""Q1"",""value"":""1http://na-ab11.marketo.com/rs/113-EDC-810/images/MSC Test Banner.jpg""},{""eventId"":""100"",""questionId"":""Q1"",""value"":""2http://na-ab11.marketo.com/rs/113-EDC-810/images/MSC Test Banner.jpg""},{""eventId"":""100"",""questionId"":""Q2"",""value"":""3Consumers,Partners""},{""eventId"":""200"",""questionId"":""Q3""},{""eventId"":""200"",""questionId"":""Q4"",""value"":""4Klo""}]}";
     var value = response.Replace("\r", string.Empty).Replace("\n", string.Empty).Replace(" ", string.Empty);
+
     //Assert
     Assert.AreEqual(value, expectedResponse.Replace(" ", string.Empty));
   }
@@ -322,15 +283,9 @@ public class AutoMapperTest
 
     //Act
     ITransformationHandler handler = new ValueMappingHandler();
-    try
-    {
-      var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
-      Assert.IsTrue(response == "Certain");
-    }
-    catch (Exception)
-    {
-      Assert.Fail();
-    }
+    var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
+
+    Assert.IsTrue(response == "Certain");
   }
 
   [TestMethod, Description("ValueMappingHandler test - Validate that the default value is returned is UTC now.")]
@@ -342,16 +297,9 @@ public class AutoMapperTest
 
     //Act
     ITransformationHandler handler = new ValueMappingHandler();
-    try
-    {
-      var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
-      DateTime date;
-      Assert.IsTrue(DateTime.TryParse(response, out date));
-    }
-    catch (Exception)
-    {
-      Assert.Fail();
-    }
+    var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
+
+    Assert.IsTrue(DateTime.TryParse(response, out DateTime _));
   }
 
   [TestMethod, Description("ValueMappingHandler test - Validate that the default value is returned is new Guid.")]
@@ -363,16 +311,9 @@ public class AutoMapperTest
 
     //Act
     ITransformationHandler handler = new ValueMappingHandler();
-    try
-    {
-      var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
-      Guid guid;
-      Assert.IsTrue(Guid.TryParse(response, out guid));
-    }
-    catch (Exception)
-    {
-      Assert.Fail();
-    }
+    var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
+
+    Assert.IsTrue(Guid.TryParse(response, out Guid _));
   }
 
   [TestMethod, Description("ValueMappingHandler test - Validate that the default value is returned is mapped.")]
@@ -384,15 +325,9 @@ public class AutoMapperTest
 
     //Act
     ITransformationHandler handler = new ValueMappingHandler();
-    try
-    {
-      var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
-      Assert.IsTrue(response == "2");
-    }
-    catch (Exception)
-    {
-      Assert.Fail();
-    }
+    var response = handler.Run(JObject.Parse(config), JObject.Parse(input));
+
+    Assert.IsTrue(response == "2");
   }
 
   [TestMethod, Description("Function handler test - Validate that the value returned is concatenated.")]
@@ -535,9 +470,7 @@ public class AutoMapperTest
   public void FunctionTest_ReplaceValueNode_Failure()
   {
     //Arrange - Certain input json with complex object
-
     var inputJson = "{ \"mipmsxPreferenceTopic\": \"MOD\", \"JobTitle\": \"Webmaster and Records Manager\", \"BusinessPhone\": \"+15563213567\", \"MobilePhone\": 1234565430, \"CountryOrRegion\": \"United Sates\", \"mipmsxPreferenceType\": \"Topic\", }";
-
     var mapping = @"{'MappingRuleConfig':{'TruthTable':[{'SourceColumn':'','DestinationColumn':'Output','DataType':'string','ComplexType':{'DataType':'string','Node':'$','TruthTable':[{'SourceColumn':'','DestinationColumn':'PreferenceTopic','DataType':'string','TransformValue':{'Type':'function','CompareToValue':'CNE','ReturnValue':'','DefaultValue':'NA','Function':'ReplaceValue','Params':['$.mipmsxPreferenceType']}}]}}]}}";
 
     var mapper = new AutoMapper(mapping);
@@ -554,9 +487,7 @@ public class AutoMapperTest
   public void FunctionTest_ReplaceValueNode_Sucess()
   {
     //Arrange - Certain input json with complex object
-
     var inputJson = "{ \"mipmsxPreferenceTopic\": \"MOD\", \"JobTitle\": \"Webmaster and Records Manager\", \"BusinessPhone\": \"+15563213567\", \"MobilePhone\": 1234565430, \"CountryOrRegion\": \"United Sates\", \"mipmsxPreferenceType\": \"Topic\", }";
-
     var mapping = @"{'MappingRuleConfig':{'TruthTable':[{'SourceColumn':'','DestinationColumn':'Output','DataType':'string','ComplexType':{'DataType':'string','Node':'$','TruthTable':[{'SourceColumn':'','DestinationColumn':'PreferenceTopic','DataType':'string','TransformValue':{'Type':'function','CompareToValue':'Topic','ReturnValue':'RV','DefaultValue':'NA','Function':'ReplaceValue','Params':['$.mipmsxPreferenceType']}}]}}]}}";
 
     var mapper = new AutoMapper(mapping);
@@ -573,9 +504,7 @@ public class AutoMapperTest
   public void FunctionTest_ReplaceValueNode_JsonPath()
   {
     //Arrange - Certain input json with complex object
-
     var inputJson = "{ \"mipmsxPreferenceTopic\": \"MOD\", \"JobTitle\": \"Webmaster and Records Manager\", \"BusinessPhone\": \"+15563213567\", \"MobilePhone\": 1234565430, \"CountryOrRegion\": \"United Sates\", \"mipmsxPreferenceType\": \"Topic\", }";
-
     var mapping = @"{'MappingRuleConfig':{'TruthTable':[{'SourceColumn':'','DestinationColumn':'Output','DataType':'string','ComplexType':{'DataType':'string','Node':'$','TruthTable':[{'SourceColumn':'','DestinationColumn':'PreferenceTopic','DataType':'string','TransformValue':{'Type':'function','CompareToValue':'$.JobTitle','ReturnValue':'$.MobilePhone','DefaultValue':'$.mipmsxPreferenceTopic','Function':'ReplaceValue','Params':['$.mipmsxPreferenceType']}}]}}]}}";
 
     var mapper = new AutoMapper(mapping);
@@ -592,9 +521,7 @@ public class AutoMapperTest
   public void FunctionTest_ReplaceValueNode_JsonPath_EmptyCompareValue()
   {
     //Arrange - Certain input json with complex object
-
     var inputJson = "{ \"mipmsxPreferenceTopic\": \"MOD\", \"JobTitle\": \"Webmaster and Records Manager\", \"BusinessPhone\": \"+15563213567\", \"MobilePhone\": 1234565430, \"CountryOrRegion\": \"United Sates\", \"mipmsxPreferenceType\": null, }";
-
     var mapping = @"{'MappingRuleConfig':{'TruthTable':[{'SourceColumn':'','DestinationColumn':'Output','DataType':'string','ComplexType':{'DataType':'string','Node':'$','TruthTable':[{'SourceColumn':'','DestinationColumn':'PreferenceTopic','DataType':'string','TransformValue':{'Type':'function','CompareToValue':'$.JobTitle','ReturnValue':'$.MobilePhone','DefaultValue':'$.mipmsxPreferenceTopic','Function':'ReplaceValue','Params':['$.mipmsxPreferenceType']}}]}}]}}";
 
     var mapper = new AutoMapper(mapping);
@@ -611,9 +538,7 @@ public class AutoMapperTest
   public void FunctionTest_ReplaceValue_ReturnValue_Node()
   {
     //Arrange - Certain input json with complex object
-
     var inputJson = "{ \"mipmsxPreferenceTopic\": \"MOD\", \"JobTitle\": \"Webmaster and Records Manager\", \"BusinessPhone\": \"+15563213567\", \"MobilePhone\": 1234565430, \"CountryOrRegion\": \"United Sates\", \"mipmsxPreferenceType\": \"Topic\", }";
-
     var mapping = @"{'MappingRuleConfig':{'TruthTable':[{'SourceColumn':'','DestinationColumn':'Output','DataType':'string','ComplexType':{'DataType':'string','Node':'$','TruthTable':[{'SourceColumn':'','DestinationColumn':'PreferenceTopic','DataType':'string','TransformValue':{'Type':'function','CompareToValue':'$.JobTitle','ReturnValue':'$.MobilePhone','DefaultValue':'$.mipmsxPreferenceTopic','Function':'ReplaceValue','Params':['$.mipmsxPreferenceType']}}]}}]}}";
 
     var mapper = new AutoMapper(mapping);
@@ -630,9 +555,7 @@ public class AutoMapperTest
   public void FunctionTest_ReplaceValueNodeTwo()
   {
     //Arrange - Certain input json with complex object
-
     var inputJson = "{ \"mipmsxPreferenceTopic\": \"MOD\", \"JobTitle\": \"Webmaster and Records Manager\", \"BusinessPhone\": \"+15563213567\", \"MobilePhone\": \"+1234565430\", \"CountryOrRegion\": \"United Sates\", \"mipmsxPreferenceType\": \"Mswide\", }";
-
     var mapping = @"{'MappingRuleConfig':{'TruthTable':[{'SourceColumn':'','DestinationColumn':'Output','DataType':'string','ComplexType':{'DataType':'string','Node':'$','TruthTable':[{'SourceColumn':'','DestinationColumn':'PreferenceTopic','DataType':'string','TransformValue':{'Type':'function','CompareToValue':'MSWide','ReturnValue':'','DefaultValue':'$.mipmsxPreferenceTopic','Function':'ReplaceValue','Params':['$.mipmsxPreferenceType']}}]}}]}}";
 
     var mapper = new AutoMapper(mapping);
@@ -726,6 +649,7 @@ public class AutoMapperTest
     //Act
     var response = mapper.TransformIntoJson(JObject.Parse(inputJson), true);
     var expectedResponse = "{ \"EventId\": \"-1\", \"SchemaName\": \"JournalEvents.Certain.EventQuestionAnswersDetail\", \"ContentObject\": [ { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Hero Banner Image\", \"questionLabel\": \"Hero Banner Image\", \"questionCode\": \"Hero Banner Image\", \"questionType\": \"Image\", \"answerLabel\": \"answerLabelXYZ\", \"answerCode\": \"answerCodeXYZ\", \"answerName\": \"answerNameXYZ\" }, { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Program-HeaderText\", \"questionLabel\": \"Program-HeaderText\", \"questionCode\": \"Program-HeaderText\", \"questionType\": \"Text\", \"answerLabel\": null, \"answerCode\": null, \"answerName\": null }, { \"accountCode\": \"C-and-E\", \"eventCode\": \"tmpl-polish-devcl\", \"questionName\": \"Program-Description\", \"questionLabel\": \"Program-Description (Registration Form - Paragraph 1)\", \"questionCode\": \"Program-Description\", \"questionType\": \"Textarea\", \"answerLabel\": null, \"answerCode\": null, \"answerName\": null } ] }";
+
     //Assert
     Assert.IsTrue(JToken.DeepEquals(response, JObject.Parse(expectedResponse)));
   }
@@ -836,15 +760,9 @@ public class AutoMapperTest
 
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var lead = (LeadRecord)mapper.Transform(inputJson);
-      Assert.IsTrue(lead.LeadScore == 100);
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail(ex.Message);
-    }
+    var lead = (LeadRecord)mapper.Transform(inputJson);
+
+    Assert.IsTrue(lead.LeadScore == 100);
   }
 
   [TestMethod, Description("Validate that the JObject and JArray are created With same Flattene Object.")]
@@ -857,20 +775,12 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"DestinationType\": \"JObject\", \"TruthTable\": [ { \"SourceColumn\": \"$.ProgramName\", \"DestinationColumn\": \"ProgramName\", \"DataType\": \"string\" }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"Folder\", \"DataType\": \"JObject\", \"ComplexType\": { \"Node\": \"$\", \"TruthTable\": [ { \"SourceColumn\": \"$.ProgramFolderId\", \"DestinationColumn\": \"id\", \"DataType\": \"string\" }, { \"SourceColumn\": \"$.ProgramFolderType\", \"DestinationColumn\": \"type\", \"DataType\": \"string\" } ] } }, { \"SourceColumn\": \"$.ProgramDescription\", \"DestinationColumn\": \"ProgramDescription\", \"DataType\": \"string\" }, { \"SourceColumn\": \"$.ProgramType\", \"DestinationColumn\": \"ProgramType\", \"DataType\": \"string\" }, { \"SourceColumn\": \"$.ProgramChannel\", \"DestinationColumn\": \"ProgramChannel\", \"DataType\": \"string\" }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"Costs\", \"ComplexType\": { \"DataType\": \"JArray\", \"Node\": \"$\", \"IgnoreEmptyArray\": true, \"TruthTable\": [ { \"SourceColumn\": \"$.ProgramStartDate\", \"DestinationColumn\": \"startDate\", \"DataType\": \"string\" }, { \"SourceColumn\": \"$.ProgramCosts\", \"DestinationColumn\": \"cost\", \"DataType\": \"string\" } ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(inputJson);
-      var expectedOutput = "{\"ProgramName\":\"test4\",\"Folder\":{\"id\":\"49\",\"type\":\"Folder\"},\"ProgramDescription\":\"xcvxbv\",\"ProgramType\":\"Default\",\"ProgramChannel\":\"Email Blast\",\"Costs\":[{\"startDate\":\"2015-01-01\",\"cost\":\"8360\"}]}";
+    var output = mapper.TransformIntoJson(inputJson);
+    var expectedOutput = "{\"ProgramName\":\"test4\",\"Folder\":{\"id\":\"49\",\"type\":\"Folder\"},\"ProgramDescription\":\"xcvxbv\",\"ProgramType\":\"Default\",\"ProgramChannel\":\"Email Blast\",\"Costs\":[{\"startDate\":\"2015-01-01\",\"cost\":\"8360\"}]}";
 
-      Assert.AreEqual(output, expectedOutput);
-    }
-    catch (Exception)
-    {
-      Assert.Fail();
-    }
+    Assert.AreEqual(output, expectedOutput);
   }
 
   [TestMethod, Description("Validate that the datetime format is not changed after transformation.")]
@@ -883,20 +793,12 @@ public class AutoMapperTest
     var mappingJson =
       "{'MappingRuleConfig': {'TruthTable': [{'SourceColumn': '','DestinationColumn': 'EventId','DataType': 'string','ComplexType': null,'TransformValue': {'DefaultValue': '-1'}},{'SourceColumn': '$.MifContext.correlationId','DestinationColumn': 'BatchId','DataType': 'guid','ComplexType': null,'TransformValue': null},{'SourceColumn': '','DestinationColumn': 'RequestId','DataType': 'guid','ComplexType': null,'TransformValue': {'DefaultValue': 'newGuid'}},{'SourceColumn': '','DestinationColumn': 'MoreResults','DataType': 'bool','ComplexType': null,'TransformValue': {'DefaultValue': 'false'}},{'SourceColumn': '','DestinationColumn': 'SchemaName','DataType': 'string','ComplexType': null,'TransformValue': {'DefaultValue': 'JournalEvents.EventPoint.ProgramDay'}},{'SourceColumn': '','DestinationColumn': 'ContentObject','DataType': 'JArray','ComplexType': {'DataType': 'JArray','Node': '$.Content[*]','TruthTable': [{'SourceColumn': '$.[{parent}].[{parent}].[{parent}].MifContext.programId','DestinationColumn': 'ProgramId','DataType': 'string'},{'SourceColumn': '$.[{parent}].[{parent}].[{parent}].MifContext.programCode','DestinationColumn': 'ProgramCode','DataType': 'string'},{'SourceColumn': '$.Date','DestinationColumn': 'ProgramDayDate','DataType': 'string'},{'SourceColumn': '$.Date','DestinationColumn': 'LongFormattedDate','DataType': 'formattedDatetime','Format': 'yyyy-MM-ddTHH:mm:ssZ',},{'SourceColumn': '$.ShortFormattedDate','DestinationColumn': 'ShortFormattedDate','DataType': 'string'},{'SourceColumn': '$.DateString','DestinationColumn': 'DateString','DataType': 'string'},{'SourceColumn': '$.DateIndex','DestinationColumn': 'DateIndex','DataType': 'string'}]}},{'SourceColumn': '','DestinationColumn': 'CreatedDate','DataType': 'formattedDatetime','Format': 'yyyy-MM-ddTHH:mm:ssZ','TransformValue': {'DefaultValue': 'utcNow'}},{'SourceColumn': '','DestinationColumn': 'EventDate','DataType': 'formattedDatetime','Format': 'yyyy-MM-ddTHH:mm:ssZ','TransformValue': {'DefaultValue': 'utcNow'}}]}}";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
 
-      Assert.AreEqual(output["ContentObject"][0]["ProgramDayDate"].ToString(), "2015-11-30T00:00:00");
-      Assert.AreEqual(output["ContentObject"][0]["ShortFormattedDate"].ToString(), "11/30/2015");
-    }
-    catch (Exception)
-    {
-      Assert.Fail();
-    }
+    Assert.AreEqual(output["ContentObject"][0]["ProgramDayDate"].ToString(), "2015-11-30T00:00:00");
+    Assert.AreEqual(output["ContentObject"][0]["ShortFormattedDate"].ToString(), "11/30/2015");
   }
 
   [TestMethod, Description("Validate that the concatenation where nulls are present.")]
@@ -909,19 +811,12 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"batchId\", \"DestinationColumn\": \"batchId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"messageCorrelationId\", \"DestinationColumn\": \"messageCorrelationId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"responseId\", \"DestinationColumn\": \"responseId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"success\", \"DestinationColumn\": \"success\", \"DataType\": \"bool\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"email\", \"DestinationColumn\": \"EmailAddress\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"data\", \"DataType\": \"JObject\", \"ComplexType\": { \"DataType\": \"JObject\", \"Node\": \"$\", \"TruthTable\": [ { \"SourceColumn\": \"email\", \"DestinationColumn\": \"EmailAddress\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"success\", \"DataType\": \"bool\", \"ComplexType\": null, \"TransformValue\": { \"DefaultValue\": false } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"errors\", \"DataType\": \"JArray\", \"ComplexType\": { \"DataType\": \"JArray\", \"Node\": \"$\", \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"message\", \"DataType\": \"string\", \"TransformValue\": { \"DefaultValue\": \"Validation Failed.\" } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"type\", \"DataType\": \"string\", \"TransformValue\": { \"DefaultValue\": \"Validation Error\" } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"validationErrors\", \"DataType\": \"JArray\", \"TransformValue\": { \"Type\": \"function\", \"Delimeter\": \",\", \"Function\": \"Concat\", \"Params\": [ \"$.data.errors.validationErrors[*].message\", \"$.data.errors.innerValidationErrors[*].message\" ] } } ] } } ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"batchId\": \"d7620d3b-188a-49a0-b540-29de82b6ae1c\", \"messageCorrelationId\": \"6a87a56f-618c-4d0b-ac96-09adad1f99d5\", \"responseId\": \"bcf0f3d0-7053-4924-b773-11776daf7692\", \"success\": false, \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"data\": { \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"success\": false, \"errors\": [ { \"message\": \"Validation Failed.\", \"type\": \"Validation Error\", \"validationErrors\": [ \"PropertyRequired for action at #/action\" ] } ] } } ";
-      Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"batchId\": \"d7620d3b-188a-49a0-b540-29de82b6ae1c\", \"messageCorrelationId\": \"6a87a56f-618c-4d0b-ac96-09adad1f99d5\", \"responseId\": \"bcf0f3d0-7053-4924-b773-11776daf7692\", \"success\": false, \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"data\": { \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"success\": false, \"errors\": [ { \"message\": \"Validation Failed.\", \"type\": \"Validation Error\", \"validationErrors\": [ \"PropertyRequired for action at #/action\" ] } ] } } ";
+
+    Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate that the concatenation where nulls are present.")]
@@ -934,20 +829,12 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"batchId\", \"DestinationColumn\": \"batchId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"messageCorrelationId\", \"DestinationColumn\": \"messageCorrelationId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"responseId\", \"DestinationColumn\": \"responseId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"success\", \"DestinationColumn\": \"success\", \"DataType\": \"bool\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"email\", \"DestinationColumn\": \"EmailAddress\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"data\", \"DataType\": \"JObject\", \"ComplexType\": { \"DataType\": \"JObject\", \"Node\": \"$\", \"TruthTable\": [ { \"SourceColumn\": \"email\", \"DestinationColumn\": \"EmailAddress\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"success\", \"DataType\": \"bool\", \"ComplexType\": null, \"TransformValue\": { \"DefaultValue\": false } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"errors\", \"DataType\": \"JArray\", \"ComplexType\": { \"DataType\": \"JArray\", \"Node\": \"$\", \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"message\", \"DataType\": \"string\", \"TransformValue\": { \"DefaultValue\": \"Validation Failed.\" } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"type\", \"DataType\": \"string\", \"TransformValue\": { \"DefaultValue\": \"Validation Error\" } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"validationErrors\", \"DataType\": \"JArray\", \"TransformValue\": { \"Type\": \"function\", \"Delimeter\": \",\", \"Function\": \"Concat\", \"Params\": [ \"$.data.errors.validationErrors[*].message\", \"$.data.errors.innerValidationErrors[*].message\" ] } } ] } } ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"batchId\": \"d7620d3b-188a-49a0-b540-29de82b6ae1c\", \"messageCorrelationId\": \"6a87a56f-618c-4d0b-ac96-09adad1f99d5\", \"responseId\": \"bcf0f3d0-7053-4924-b773-11776daf7692\", \"success\": false, \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"data\": { \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"success\": false, \"errors\": [ { \"message\": \"Validation Failed.\", \"type\": \"Validation Error\", \"validationErrors\": [ \"\" ] } ] } } ";
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"batchId\": \"d7620d3b-188a-49a0-b540-29de82b6ae1c\", \"messageCorrelationId\": \"6a87a56f-618c-4d0b-ac96-09adad1f99d5\", \"responseId\": \"bcf0f3d0-7053-4924-b773-11776daf7692\", \"success\": false, \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"data\": { \"EmailAddress\": \"P75LIOT4USIPA7RXVMPG@mipFT.com\", \"success\": false, \"errors\": [ { \"message\": \"Validation Failed.\", \"type\": \"Validation Error\", \"validationErrors\": [ \"\" ] } ] } } ";
 
-      Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate that the DateTime offset is removed from the value to be returned.")]
@@ -960,20 +847,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.MifContext.MessageBody.Program.UniqueProgramIdentifier\", \"DestinationColumn\": \"ProgramId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"TacticName\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.MifContext.MessageBody.Program.tokens[?(@.name == 'Program-Name')].value\", \"ReturnValue\": \"$.MifContext.MessageBody.Program.name\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.MifContext.MessageBody.Program.tokens[?(@.name == 'Program-Name')].value\" ] } }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.name\", \"DestinationColumn\": \"PromotionCode\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.tags[?(@.tagType == 'Global Engagement Program')].tagValue\", \"DestinationColumn\": \"GEPName\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.tags[?(@.tagType == 'Global Engagement Program Scenario')].tagValue\", \"DestinationColumn\": \"GEPScenario\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.startDate\", \"DestinationColumn\": \"TacticStartDate\", \"DataType\": \"removeDateTimeOffset\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.endDate\", \"DestinationColumn\": \"TacticEndDate\", \"DataType\": \"removeDateTimeOffset\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"Source\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"ValueMapping\": null, \"DefaultValue\": \"Marketing\" } }, { \"SourceColumn\": \"$.Results[0].Id\", \"DestinationColumn\": \"Id\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"Origin\", \"DataType\": \"JObject\", \"ComplexType\": { \"DataType\": \"JObject\", \"Node\": \"\", \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"DisplayValue\", \"DataType\": \"string\", \"TransformValue\": { \"DefaultValue\": \"Marketing\" } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"OptionSetId\", \"DataType\": \"int\", \"TransformValue\": { \"DefaultValue\": 861980001 } } ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{\r\n  \"ProgramId\": \"V1|OneGDC|10585\",\r\n  \"TacticName\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"PromotionCode\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"GEPName\": \"Azure Platform\",\r\n  \"TacticStartDate\": \"2015-06-26T15:00:00Z\",\r\n  \"TacticEndDate\": \"2015-06-26T15:55:00Z\",\r\n  \"Source\": \"Marketing\",\r\n  \"Id\": \"55a11e81-7e0a-4628-b489-b9db3ff8acac\",\r\n  \"Origin\": {\r\n    \"DisplayValue\": \"Marketing\",\r\n    \"OptionSetId\": 861980001\r\n  }\r\n}";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{\r\n  \"ProgramId\": \"V1|OneGDC|10585\",\r\n  \"TacticName\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"PromotionCode\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"GEPName\": \"Azure Platform\",\r\n  \"TacticStartDate\": \"2015-06-26T15:00:00Z\",\r\n  \"TacticEndDate\": \"2015-06-26T15:55:00Z\",\r\n  \"Source\": \"Marketing\",\r\n  \"Id\": \"55a11e81-7e0a-4628-b489-b9db3ff8acac\",\r\n  \"Origin\": {\r\n    \"DisplayValue\": \"Marketing\",\r\n    \"OptionSetId\": 861980001\r\n  }\r\n}";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate that the DateTime is sent as it is if no offset is present.")]
@@ -986,20 +866,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.MifContext.MessageBody.Program.UniqueProgramIdentifier\", \"DestinationColumn\": \"ProgramId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"TacticName\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.MifContext.MessageBody.Program.tokens[?(@.name == 'Program-Name')].value\", \"ReturnValue\": \"$.MifContext.MessageBody.Program.name\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.MifContext.MessageBody.Program.tokens[?(@.name == 'Program-Name')].value\" ] } }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.name\", \"DestinationColumn\": \"PromotionCode\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.tags[?(@.tagType == 'Global Engagement Program')].tagValue\", \"DestinationColumn\": \"GEPName\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.tags[?(@.tagType == 'Global Engagement Program Scenario')].tagValue\", \"DestinationColumn\": \"GEPScenario\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.startDate\", \"DestinationColumn\": \"TacticStartDate\", \"DataType\": \"removeDateTimeOffset\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"$.MifContext.MessageBody.Program.endDate\", \"DestinationColumn\": \"TacticEndDate\", \"DataType\": \"removeDateTimeOffset\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"Source\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"ValueMapping\": null, \"DefaultValue\": \"Marketing\" } }, { \"SourceColumn\": \"$.Results[0].Id\", \"DestinationColumn\": \"Id\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"Origin\", \"DataType\": \"JObject\", \"ComplexType\": { \"DataType\": \"JObject\", \"Node\": \"\", \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"DisplayValue\", \"DataType\": \"string\", \"TransformValue\": { \"DefaultValue\": \"Marketing\" } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"OptionSetId\", \"DataType\": \"int\", \"TransformValue\": { \"DefaultValue\": 861980001 } } ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{\r\n  \"ProgramId\": \"V1|OneGDC|10585\",\r\n  \"TacticName\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"PromotionCode\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"GEPName\": \"Azure Platform\",\r\n  \"TacticStartDate\": \"2015-06-26T15:00:00\",\r\n  \"TacticEndDate\": \"2015-06-26T15:55:00\",\r\n  \"Source\": \"Marketing\",\r\n  \"Id\": \"55a11e81-7e0a-4628-b489-b9db3ff8acac\",\r\n  \"Origin\": {\r\n    \"DisplayValue\": \"Marketing\",\r\n    \"OptionSetId\": 861980001\r\n  }\r\n}";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{\r\n  \"ProgramId\": \"V1|OneGDC|10585\",\r\n  \"TacticName\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"PromotionCode\": \"CO-Azure-WBNR-FY16-07Jul-AADP Quick Wins AM1\",\r\n  \"GEPName\": \"Azure Platform\",\r\n  \"TacticStartDate\": \"2015-06-26T15:00:00\",\r\n  \"TacticEndDate\": \"2015-06-26T15:55:00\",\r\n  \"Source\": \"Marketing\",\r\n  \"Id\": \"55a11e81-7e0a-4628-b489-b9db3ff8acac\",\r\n  \"Origin\": {\r\n    \"DisplayValue\": \"Marketing\",\r\n    \"OptionSetId\": 861980001\r\n  }\r\n}";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1012,20 +885,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"12345\" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"12345\" }";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1038,20 +904,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1064,20 +923,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1090,20 +942,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\" }";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1116,20 +961,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"\" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"\" }";
+    _= JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1142,20 +980,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\" \" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\" \" }";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1168,20 +999,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"\" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"\" }";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1194,20 +1018,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"IgnoreEmptyParams\": \"true\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Validate ReplaceValueFunction.")]
@@ -1220,20 +1037,13 @@ public class AutoMapperTest
     var mappingJson =
       "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"$.ForEachContext.leadId\", \"DestinationColumn\": \"LeadId\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": null }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"MainPhone\", \"DataType\": \"string\", \"ComplexType\": null, \"TransformValue\": { \"Type\": \"function\", \"CompareToValue\": null, \"DefaultValue\": \"$.ForEachContext.cDVSBusinessPhoneE164Format\", \"ReturnValue\": \"$.ForEachContext.phone\", \"Function\": \"ReplaceValue\", \"IgnoreEmptyParams\": \"true\", \"Params\": [ \"$.ForEachContext.cDVSBusinessPhoneE164Format\" ] } } ] } }";
 
-
     //Act
     var mapper = new AutoMapper(mappingJson);
-    try
-    {
-      var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
-      var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
-      var j = JObject.Parse(expectedOutput);
-      Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
-    }
-    catch (Exception ex)
-    {
-      Assert.Fail("Test failed: " + ex.Message);
-    }
+    var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
+    var expectedOutput = "{ \"LeadId\":\"leadId1\", \"MainPhone\":\"67890\" }";
+    _ = JObject.Parse(expectedOutput);
+
+    Assert.IsTrue(JToken.DeepEquals(JObject.Parse(output.ToString()), JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Test one to one mapping functionality")]
@@ -1252,7 +1062,7 @@ public class AutoMapperTest
       input = (JToken.ReadFrom(new JsonTextReader(r))).ToString();
     }
 
-    //Act            
+    //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(input), true);
 
@@ -1276,7 +1086,7 @@ public class AutoMapperTest
       input = (JToken.ReadFrom(new JsonTextReader(r))).ToString();
     }
 
-    //Act            
+    //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(input), true);
 
@@ -1291,10 +1101,12 @@ public class AutoMapperTest
     var inputJson =
       "{ \"data\": { \"companyName\": \"Procter & Gamble Company\", \"countryName\": \"Bulgaria\", \"state\": \"\", \"city\": \"Sofia\", \"zipCode\": \"1510\", \"DunnsId\": null } } ";
     var mappingJson = "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"dummy\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Function\": \"UriEscapeDataString\", \"Params\": [ \"$.data.companyName\", \"$.data.countryName\", \"$.data.state\", \"$.data.city\", \"$.data.zipCode\", \"$.data.DunnsId\" ] } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"message\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Delimeter\": \"\", \"Function\": \"Concat\", \"Params\": [ \"https://social.sprinklr.com/selling/search/company?companyName=\", \"$.data.companyName\", \"&countryName=\", \"$.data.countryName\", \"&state=\", \"$.data.state\", \"&city=\", \"$.data.city\", \"&zipCode=\", \"$.data.zipCode\", \"&DunnsId=\", \"$.data.DunnsId\" ] } } ] } } ";
+    
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     var expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%26%20Gamble%20Company&countryName=Bulgaria&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1305,10 +1117,12 @@ public class AutoMapperTest
     var inputJson =
       "{ \"data\": { \"companyName\": \"Procter $ Gamble Company\", \"countryName\": \"Bulgaria\", \"state\": \"\", \"city\": \"Sofia\", \"zipCode\": \"1510\", \"DunnsId\": null } } ";
     var mappingJson = "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"dummy\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Function\": \"UriEscapeDataString\", \"Params\": [ \"$.data.companyName\", \"$.data.countryName\", \"$.data.state\", \"$.data.city\", \"$.data.zipCode\", \"$.data.DunnsId\" ] } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"message\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Delimeter\": \"\", \"Function\": \"Concat\", \"Params\": [ \"https://social.sprinklr.com/selling/search/company?companyName=\", \"$.data.companyName\", \"&countryName=\", \"$.data.countryName\", \"&state=\", \"$.data.state\", \"&city=\", \"$.data.city\", \"&zipCode=\", \"$.data.zipCode\", \"&DunnsId=\", \"$.data.DunnsId\" ] } } ] } } ";
+    
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     var expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%24%20Gamble%20Company&countryName=Bulgaria&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1319,10 +1133,12 @@ public class AutoMapperTest
     var inputJson =
       "{ \"data\": { \"companyName\": \"Procter + Gamble Company\", \"countryName\": \"Bulgaria+\", \"state\": \"\", \"city\": \"Sofia\", \"zipCode\": \"1510\", \"DunnsId\": null } } ";
     var mappingJson = "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"dummy\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Function\": \"UriEscapeDataString\", \"Params\": [ \"$.data.companyName\", \"$.data.countryName\", \"$.data.state\", \"$.data.city\", \"$.data.zipCode\", \"$.data.DunnsId\" ] } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"message\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Delimeter\": \"\", \"Function\": \"Concat\", \"Params\": [ \"https://social.sprinklr.com/selling/search/company?companyName=\", \"$.data.companyName\", \"&countryName=\", \"$.data.countryName\", \"&state=\", \"$.data.state\", \"&city=\", \"$.data.city\", \"&zipCode=\", \"$.data.zipCode\", \"&DunnsId=\", \"$.data.DunnsId\" ] } } ] } } ";
+    
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     var expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20%2B%20Gamble%20Company&countryName=Bulgaria%2B&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1333,24 +1149,28 @@ public class AutoMapperTest
     var inputJson =
       "{ \"data\": { \"companyName\": \"Procter Gamble Company\", \"countryName\": \"Bulgaria \", \"state\": \"\", \"city\": \"Sofia\", \"zipCode\": \"1510\", \"DunnsId\": null } } ";
     var mappingJson = "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"dummy\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Function\": \"UriEscapeDataString\", \"Params\": [ \"$.data.companyName\", \"$.data.countryName\", \"$.data.state\", \"$.data.city\", \"$.data.zipCode\", \"$.data.DunnsId\" ] } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"message\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Delimeter\": \"\", \"Function\": \"Concat\", \"Params\": [ \"https://social.sprinklr.com/selling/search/company?companyName=\", \"$.data.companyName\", \"&countryName=\", \"$.data.countryName\", \"&state=\", \"$.data.state\", \"&city=\", \"$.data.city\", \"&zipCode=\", \"$.data.zipCode\", \"&DunnsId=\", \"$.data.DunnsId\" ] } } ] } } ";
+
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     var expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%20Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
   [TestMethod, Description("Test for UriEscapeDataString HappyPath With Escape character as Percent")]
-  public void FunctionHanlder_UriEscapeDataString_HappyPath_Percent()
+  public void FunctionHandler_UriEscapeDataString_HappyPath_Percent()
   {
     // Arrange
     var inputJson =
       "{ \"data\": { \"companyName\": \"Procter%Gamble Company\", \"countryName\": \"Bulgaria \", \"state\": \"\", \"city\": \"Sofia\", \"zipCode\": \"1510\", \"DunnsId\": null } } ";
     var mappingJson = "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"dummy\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Function\": \"UriEscapeDataString\", \"Params\": [ \"$.data.companyName\", \"$.data.countryName\", \"$.data.state\", \"$.data.city\", \"$.data.zipCode\", \"$.data.DunnsId\" ] } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"message\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Delimeter\": \"\", \"Function\": \"Concat\", \"Params\": [ \"https://social.sprinklr.com/selling/search/company?companyName=\", \"$.data.companyName\", \"&countryName=\", \"$.data.countryName\", \"&state=\", \"$.data.state\", \"&city=\", \"$.data.city\", \"&zipCode=\", \"$.data.zipCode\", \"&DunnsId=\", \"$.data.DunnsId\" ] } } ] } } ";
+    
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     var expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%25Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1361,10 +1181,12 @@ public class AutoMapperTest
     var inputJson =
       "{ \"data\": { \"companyName\": \"Procter!Gamble Company\", \"countryName\": \"Bulgaria \", \"state\": \"\", \"city\": \"Sofia\", \"zipCode\": \"1510\", \"DunnsId\": null } } ";
     var mappingJson = "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"dummy\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Function\": \"UriEscapeDataString\", \"Params\": [ \"$.data.companyName\", \"$.data.countryName\", \"$.data.state\", \"$.data.city\", \"$.data.zipCode\", \"$.data.DunnsId\" ] } }, { \"SourceColumn\": \"\", \"DestinationColumn\": \"message\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Delimeter\": \"\", \"Function\": \"Concat\", \"Params\": [ \"https://social.sprinklr.com/selling/search/company?companyName=\", \"$.data.companyName\", \"&countryName=\", \"$.data.countryName\", \"&state=\", \"$.data.state\", \"&city=\", \"$.data.city\", \"&zipCode=\", \"$.data.zipCode\", \"&DunnsId=\", \"$.data.DunnsId\" ] } } ] } } ";
+    
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     var expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1373,12 +1195,13 @@ public class AutoMapperTest
   {
     // Arrange
     var inputJson = "{ \"data\": { \"companyName\": \"Procter!Gamble Company\", \"countryName\": \"Bulgaria \", \"state\": \"\", \"city\": \"Sofia\", \"zipCode\": \"1510\", \"DunnsId\": null } } ";
-
     var mappingJson = "{ \"MappingRuleConfig\": { \"TruthTable\": [ { \"SourceColumn\": \"\", \"DestinationColumn\": \"dummy\", \"DataType\": \"string\", \"TransformValue\": { \"Type\": \"function\", \"Function\": \"UriEscapeDataString\", \"Params\": null } } ] } } ";
+
     //Act
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     // string expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, new JObject()));
   }
 
@@ -1393,6 +1216,7 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     var expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria &state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 
@@ -1407,6 +1231,7 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mappingJson);
     var output = mapper.TransformIntoJson(JsonConvert.DeserializeObject<JObject>(inputJson), true);
     var expectedOutput = "{ \"message\": \"https://social.sprinklr.com/selling/search/company?companyName=Procter%21Gamble%20Company&countryName=Bulgaria%20&state=&city=Sofia&zipCode=1510&DunnsId=\" }";
+
     Assert.IsTrue(JToken.DeepEquals(output, JObject.Parse(expectedOutput)));
   }
 }
