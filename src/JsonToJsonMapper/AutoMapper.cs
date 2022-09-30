@@ -39,7 +39,9 @@ public class AutoMapper : IDisposable
           scripts.Add(script.Name, CSharpScript.Create<string>(script.Code, options, globalsType: typeof(ScriptHost)));
         }
         else
+        {
           scripts.Add(script.Name, CSharpScript.Create<string>(script.Code, globalsType: typeof(ScriptHost)));
+        }
       }
     }
 
@@ -239,8 +241,8 @@ public class AutoMapper : IDisposable
         {
           foreach (var a in itemJArray)
           {
-            var o = (JToken)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(ExecuteToJson((JObject)a, mapping)), JsonConvertSettings);
-            array.Add(o);
+            var jTok = (JToken)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(ExecuteToJson((JObject)a, mapping)), JsonConvertSettings);
+            array.Add(jTok);
           }
         }
         else
@@ -312,9 +314,8 @@ public class AutoMapper : IDisposable
       }
       else
       {
-        JContainer json;
-        json = jsonObject.Parent;
-        for (var i = 2; i < key.Split(new string[] { "[{parent}]" }, StringSplitOptions.None).Length; i++)
+        var json = jsonObject.Parent;
+        for (var i = 2; i < key.Split(new[] { "[{parent}]" }, StringSplitOptions.None).Length; i++)
         {
           json = json.Parent;
         }
