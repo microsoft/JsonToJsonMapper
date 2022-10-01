@@ -10,4 +10,10 @@
     <ProjectReference Include="..\JsonToJsonMapper\JsonToJsonMapper.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\Index.razor">
+      <DependentUpon>Index.razor.cs</DependentUpon>
+    </Content>
+  </ItemGroup>
+
 </Project>
