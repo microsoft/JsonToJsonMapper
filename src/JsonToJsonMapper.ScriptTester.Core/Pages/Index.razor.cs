@@ -15,11 +15,17 @@ public sealed partial class Index
   private async Task OnRun()
   {
     _output = "Running...";
-
+    try
+    {
     var options = (!string.IsNullOrWhiteSpace(_assemblies) && !string.IsNullOrWhiteSpace(_namespaces)) ? ScriptOptions.Default.AddReferences(_assemblies).WithImports(_namespaces) : null;
     var script = CSharpScript.Create<string>(_code, options, globalsType: typeof(ScriptHost));
     var host = new ScriptHost() {Args = _input};
     var result = await script.RunAsync(host);
     _output = result.ReturnValue;
+    }
+    catch (Exception ex)
+    {
+      _output = ex.Message;
+    }
   }
 }
