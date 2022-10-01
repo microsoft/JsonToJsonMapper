@@ -1,9 +1,20 @@
 ﻿@page "/"
 
+@using BlazorMonaco
+
+<style>
+  .monaco-editor-container 
+  { 
+    height: 400px; 
+  }
+</style>
+
 <PageTitle>JsonToJsonMapper Script Tester</PageTitle>
 
 <label for="code">Code</label>
-<textarea @bind="_code" id="code" style="width: 100%; height: 400px"></textarea>
+<div style="border-width: 1px; border-color: black; border-style: solid;">
+  <MonacoEditor @ref="_code" id="code" ConstructionOptions="EditorOptions" CssClass="editor-class"/>
+</div>
 
 <label for="assemblies">Assemblies</label>
 <textarea @bind="_assemblies" id="assemblies" style="width: 100%;"></textarea>
@@ -17,4 +28,4 @@
 <label for="output">Output</label>
 <textarea @bind="_output" id="output" readonly="" style="width: 100%; height: 100px"></textarea>
 
-<button @onclick="@(async () => await OnRun())" disabled="@(!_canRun)">Run</button>
+<button @onclick="@(async () => await OnRun())">Run</button>
