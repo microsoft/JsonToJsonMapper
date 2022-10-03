@@ -706,17 +706,8 @@ public class AutoMapperTest
   public void FunctionTest_TransformToUpperCaseParent()
   {
     //Arrange - Certain input json with complex object
-    string mapping;
-    using (var r = new StreamReader(@"Jsons\ToUpper\Upper_Mapping.json"))
-    {
-      mapping = (JToken.ReadFrom(new JsonTextReader(r))).ToString();
-    }
-
-    string inputJson;
-    using (var r = new StreamReader(@"Jsons\ToUpper\Transformation_Input.json"))
-    {
-      inputJson = (JToken.ReadFrom(new JsonTextReader(r))).ToString();
-    }
+    var mapping = File.ReadAllText(Path.Combine("Jsons","ToUpper","Upper_Mapping.json"));
+    var inputJson = File.ReadAllText(Path.Combine("Jsons","ToUpper","Transformation_Input.json"));
 
     var mapper = new AutoMapper(mapping);
 
@@ -1052,17 +1043,8 @@ public class AutoMapperTest
   public void OneToOneMappingTest()
   {
     //Arrange
-    string mappingJson;
-    using (var r = new StreamReader(@"Jsons\OneToOneMapping\OneToOneMappingRules.json"))
-    {
-      mappingJson = (JToken.ReadFrom(new JsonTextReader(r))).ToString();
-    }
-
-    string input;
-    using (var r = new StreamReader(@"Jsons\OneToOneMapping\Transformation_Input.json"))
-    {
-      input = (JToken.ReadFrom(new JsonTextReader(r))).ToString();
-    }
+    var mappingJson = File.ReadAllText(Path.Combine("Jsons","OneToOneMapping","OneToOneMappingRules.json"));
+    var input = File.ReadAllText(Path.Combine("Jsons","OneToOneMapping","Transformation_Input.json"));;
 
     //Act
     var mapper = new AutoMapper(mappingJson);
@@ -1076,17 +1058,8 @@ public class AutoMapperTest
   public void RangeMappingTest()
   {
     //Arrange
-    string mappingJson;
-    using (var r = new StreamReader(@"Jsons\RangeMapping\RangeMappingRules.json"))
-    {
-      mappingJson = (JToken.ReadFrom(new JsonTextReader(r))).ToString();
-    }
-
-    string input;
-    using (var r = new StreamReader(@"Jsons\RangeMapping\Transformation_Input.json"))
-    {
-      input = (JToken.ReadFrom(new JsonTextReader(r))).ToString();
-    }
+    var mappingJson = File.ReadAllText(Path.Combine("Jsons","RangeMapping","RangeMappingRules.json"));;
+    var input = File.ReadAllText(Path.Combine("Jsons","RangeMapping","Transformation_Input.json"));;
 
     //Act
     var mapper = new AutoMapper(mappingJson);
