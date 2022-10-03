@@ -473,10 +473,10 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mapping);
 
     //Act
-    var response = mapper.TransformIntoJson(inputJson, true);
+    var response = mapper.TransformIntoJson(inputJson, true).Replace("\\n", string.Empty).Replace("\\r", string.Empty);
 
     //Assert
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"NA\\\"\\r\\n}\"}";
+    const string expectedResponse = "{\"Output\":\"{  \\\"PreferenceTopic\\\": \\\"NA\\\"}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -490,10 +490,10 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mapping);
 
     //Act
-    var response = mapper.TransformIntoJson(inputJson, true);
+    var response = mapper.TransformIntoJson(inputJson, true).Replace("\\n", string.Empty).Replace("\\r", string.Empty);
 
     //Assert
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"RV\\\"\\r\\n}\"}";
+    const string expectedResponse = "{\"Output\":\"{  \\\"PreferenceTopic\\\": \\\"RV\\\"}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -507,10 +507,10 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mapping);
 
     //Act
-    var response = mapper.TransformIntoJson(inputJson, true);
+    var response = mapper.TransformIntoJson(inputJson, true).Replace("\\n", string.Empty).Replace("\\r", string.Empty);
 
     //Assert
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
+    const string expectedResponse = "{\"Output\":\"{  \\\"PreferenceTopic\\\": \\\"MOD\\\"}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -524,10 +524,10 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mapping);
 
     //Act
-    var response = mapper.TransformIntoJson(inputJson, true);
+    var response = mapper.TransformIntoJson(inputJson, true).Replace("\\n", string.Empty).Replace("\\r", string.Empty);
 
     //Assert
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
+    const string expectedResponse = "{\"Output\":\"{  \\\"PreferenceTopic\\\": \\\"MOD\\\"}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -541,10 +541,10 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mapping);
 
     //Act
-    var response = mapper.TransformIntoJson(inputJson, true);
+    var response = mapper.TransformIntoJson(inputJson, true).Replace("\\n", string.Empty).Replace("\\r", string.Empty);
 
     //Assert
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"MOD\\\"\\r\\n}\"}";
+    const string expectedResponse = "{\"Output\":\"{  \\\"PreferenceTopic\\\": \\\"MOD\\\"}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
@@ -558,10 +558,10 @@ public class AutoMapperTest
     var mapper = new AutoMapper(mapping);
 
     //Act
-    var response = mapper.TransformIntoJson(inputJson, true);
+    var response = mapper.TransformIntoJson(inputJson, true).Replace("\\n", string.Empty).Replace("\\r", string.Empty);
 
     //Assert
-    const string expectedResponse = "{\"Output\":\"{\\r\\n  \\\"PreferenceTopic\\\": \\\"\\\"\\r\\n}\"}";
+    const string expectedResponse = "{\"Output\":\"{  \\\"PreferenceTopic\\\": \\\"\\\"}\"}";
     Assert.AreEqual(response, expectedResponse);
   }
 
