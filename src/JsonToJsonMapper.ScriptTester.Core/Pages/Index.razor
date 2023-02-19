@@ -1,0 +1,31 @@
+﻿@page "/"
+
+@using BlazorMonaco
+
+<style>
+  .monaco-editor-container 
+  { 
+    height: 400px; 
+  }
+</style>
+
+<PageTitle>JsonToJsonMapper Script Tester</PageTitle>
+
+<label for="code">Code</label>
+<div style="border-width: 1px; border-color: black; border-style: solid;">
+  <MonacoEditor @ref="_code" id="code" ConstructionOptions="EditorOptions" CssClass="editor-class"/>
+</div>
+
+<label for="assemblies">Assemblies</label>
+<textarea @bind="_assemblies" id="assemblies" style="width: 100%;"></textarea>
+
+<label for="namespaces">NameSpaces</label>
+<textarea @bind="_namespaces" id="namespaces" style="width: 100%;"></textarea>
+
+<label for="input">Input</label>
+<textarea @bind="_input" id="input" style="width: 100%;"></textarea>
+
+<label for="output">Output</label>
+<textarea @bind="_output" id="output" readonly="" style="width: 100%; height: 100px"></textarea>
+
+<button @onclick="@(async () => await OnRun())">Run</button>

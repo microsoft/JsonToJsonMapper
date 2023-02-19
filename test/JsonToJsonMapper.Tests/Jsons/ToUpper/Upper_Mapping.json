@@ -1,0 +1,46 @@
+﻿{
+  "MappingRuleConfig": {
+    "TruthTable": [
+      {
+        "SourceColumn": "",
+        "DestinationColumn": "Data",
+        "DataType": "string",
+        "ComplexType": {
+          "DataType": "jArray",
+          "Node": "$.LeadInfo[*]",
+          "TruthTable": [
+            {
+              "SourceColumn": "",
+              "DestinationColumn": "EmailAddress",
+              "DataType": "string",
+              "TransformValue": {
+                "Type": "function",
+                "Function": "TOUPPERCASE",
+                "Params": [
+                  "$.[{parent}].[{parent}].[{parent}].EmailAddress"
+                ]
+              }
+            },
+            {
+              "SourceColumn": "$.FirstName",
+              "DestinationColumn": "FirstName",
+              "DataType": "string"
+            },
+            {
+              "SourceColumn": "",
+              "DestinationColumn": "LastName",
+              "DataType": "string",
+              "TransformValue": {
+                "Type": "function",
+                "Function": "TOUPPERCASE",
+                "Params": [
+                  "$.LastName"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -25,7 +25,7 @@ Following are some of the capabilities that Automapper currently supports:
 **Type converter**
 1. Primitive data types
 2. JObject
-3. Jarray
+3. JArray
 4. DateTime Formatting and Timezone
 5. Nullable int, guid and decimal
 
@@ -70,8 +70,8 @@ Source Json
   ]
 }
 ```
-Expeced output
-```javascript
+Expected output
+```json
 {
   "Content": [
     {
@@ -84,7 +84,7 @@ Expeced output
 ```
 
 Mapping config
-```javascript
+```json
 {
   "MappingRuleConfig": {
       "TruthTable": [
