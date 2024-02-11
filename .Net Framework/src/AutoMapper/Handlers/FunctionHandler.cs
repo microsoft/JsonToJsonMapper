@@ -22,77 +22,78 @@ namespace JsonToJsonMapper
             {
                 if (parameters != null)
                 {
-                    foreach (var item in parameters)
+                    foreach (var item in from item in parameters
+                                         where !(item is JToken)
+                                         select item)
                     {
-                        if (!(item is JToken))
-                            if (item.StartsWith("$"))
+                        if (item.StartsWith("$"))
+                        {
+                            if (!item.ToUpperInvariant().Contains("[{PARENT}]"))
                             {
-                                if (!item.ToUpperInvariant().Contains("[{PARENT}]"))
+                                var tokens = input.SelectTokens((string)item);
+                                if (tokens != null && tokens.Any())
                                 {
-                                    var tokens = input.SelectTokens((string)item);
-                                    if (tokens != null && tokens.Any())
+                                    foreach (var i in tokens)
                                     {
-                                        foreach (var i in tokens)
+                                        if (i.Type == JTokenType.Null)
                                         {
-                                            if (i.Type == JTokenType.Null)
-                                            {
-                                                inputParam.Add(nullString);
-                                            }
-                                            else if (string.IsNullOrWhiteSpace(i.ToString()))
-                                            {
-                                                if (Convert.ToBoolean(ignoreEmptyValue))
-                                                    inputParam.Add(nullString);
-                                                else
-                                                    inputParam.Add(i.ToString());
-                                            }
-                                            else
-                                            {
-                                                inputParam.Add(i.ToString());
-                                            }
-
+                                            inputParam.Add(nullString);
                                         }
-                                    }
-                                    else
-                                    {
-                                        inputParam.Add(nullString);
+                                        else if (string.IsNullOrWhiteSpace(i.ToString()))
+                                        {
+                                            if (Convert.ToBoolean(ignoreEmptyValue))
+                                                inputParam.Add(nullString);
+                                            else
+                                                inputParam.Add(i.ToString());
+                                        }
+                                        else
+                                        {
+                                            inputParam.Add(i.ToString());
+                                        }
+
                                     }
                                 }
                                 else
                                 {
-                                    JContainer json;
-                                    json = input.Parent;
-                                    for (int i = 2; i < item.Split(new string[] { "[{parent}]" }, System.StringSplitOptions.None).Length; i++)
+                                    inputParam.Add(nullString);
+                                }
+                            }
+                            else
+                            {
+                                JContainer json;
+                                json = input.Parent;
+                                for (int i = 2; i < item.Split(new string[] { "[{parent}]" }, System.StringSplitOptions.None).Length; i++)
+                                {
+                                    json = json.Parent;
+                                }
+                                JToken valueToken = json.SelectToken(item.Replace("[{parent}].", "").Replace("$.", ""));
+                                if (valueToken != null)
+                                {
+                                    if (valueToken.Type == JTokenType.Array || valueToken.Type == JTokenType.Object)
+                                        inputParam.Add(valueToken.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", ""));
+                                    else if (valueToken.Value<string>() != null)
                                     {
-                                        json = json.Parent;
-                                    }
-                                    JToken valueToken = json.SelectToken(item.Replace("[{parent}].", "").Replace("$.", ""));
-                                    if (valueToken != null)
-                                    {
-                                        if (valueToken.Type == JTokenType.Array || valueToken.Type == JTokenType.Object)
-                                            inputParam.Add(valueToken.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", ""));
-                                        else if (valueToken.Value<string>() != null)
+                                        if (string.IsNullOrWhiteSpace(valueToken.ToString()))
                                         {
-                                            if (string.IsNullOrWhiteSpace(valueToken.ToString()))
-                                            {
-                                                if (Convert.ToBoolean(ignoreEmptyValue))
-                                                    inputParam.Add(nullString);
-                                                else
-                                                    inputParam.Add(valueToken.ToString());
-                                            }
+                                            if (Convert.ToBoolean(ignoreEmptyValue))
+                                                inputParam.Add(nullString);
                                             else
-                                            {
                                                 inputParam.Add(valueToken.ToString());
-                                            }
                                         }
                                         else
-                                            inputParam.Add(nullString);
+                                        {
+                                            inputParam.Add(valueToken.ToString());
+                                        }
                                     }
                                     else
                                         inputParam.Add(nullString);
                                 }
+                                else
+                                    inputParam.Add(nullString);
                             }
-                            else
-                                inputParam.Add(item);
+                        }
+                        else
+                            inputParam.Add(item);
                     }
                 }
             }
